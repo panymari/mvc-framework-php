@@ -8,20 +8,21 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style><?php include VIEW_ROOT_USERS . '/custom.css'; ?></style>
 </head>
 <body>
 <div class="container">
     <form method="post" action="">
-        <div class="form-group" style="margin-bottom: 1rem;">
+        <div class="form-group field">
             <label for="name">Name</label>
             <input type="text" name="name" class="form-control" id="name" value="<?= $user['name'] ?>" placeholder="Enter name">
         </div>
-        <div class="form-group" style="margin-bottom: 1rem;">
+        <div class="form-group field">
             <label for="email">Email</label>
             <input type="email" name="email" class="form-control" id="email" value="<?= $user['email'] ?>" aria-describedby="emailHelp" placeholder="Enter email">
         </div>
         <label for="gender">Gender</label>
-        <select id="gender" class="form-select" name="gender" style="margin-bottom: 1rem;">
+        <select id="gender" class="form-select field" name="gender">
             <?php
             $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($genders));
             foreach ($it as $v) {
@@ -31,7 +32,7 @@
             ?>
         </select>
         <label for="status">Status</label>
-        <select id="status" class="form-select" name="status" style="margin-bottom: 1rem;">
+        <select id="status" class="form-select field" name="status">
             <?php
             $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($statuses));
             foreach ($it as $v) {
