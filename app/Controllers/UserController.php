@@ -15,6 +15,8 @@ class UserController
     public function index()
     {
         $users = User::all();
+        $statuses = User::getUserStatus();
+
         require VIEW_ROOT_USERS . 'index.php';
     }
 
@@ -27,25 +29,10 @@ class UserController
     public function create()
     {
         if (isset($_POST['create'])) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $gender = $_POST['gender'];
-            $status = $_POST['status'];
-
-            if (!User::isNameValid($name)) {
-                throw new \InvalidArgumentException('Invalid user name!');
-            }
-            if (!User::isEmailValid($email)) {
-                throw new \InvalidArgumentException('Invalid user email!');
-            }
-            if (!User::isGenderValid($gender)) {
-                throw new \InvalidArgumentException('Invalid user gender!');
-            }
-            if (!User::isStatusValid($status)) {
-                throw new \InvalidArgumentException('Invalid user status!');
-            }
+            ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = User::getValidatedParams($_POST);
 
             $user = User::create($name, $email, $gender, $status);
+
             redirect(301, USER_ROOT_REF);
         }
 
@@ -54,34 +41,19 @@ class UserController
 
     public function delete($user_id)
     {
-        if (isset($_POST['delete'])) {
-            User::delete($user_id);
-        }
-        redirect(301, USER_ROOT_REF);
+        User::delete($user_id);
+
+        redirect(301, $_SERVER['HTTP_REFERER']);
     }
 
     public function edit($user_id)
     {
         $user = User::getUserById($user_id);
+        $statuses = User::getUserStatus();
+        $genders = User::getUserGender();
 
         if (isset($_POST['edit'])) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $gender = $_POST['gender'];
-            $status = $_POST['status'];
-
-            if (!User::isNameValid($name)) {
-                throw new \InvalidArgumentException('Invalid user name!');
-            }
-            if (!User::isEmailValid($email)) {
-                throw new \InvalidArgumentException('Invalid user email!');
-            }
-            if (!User::isGenderValid($gender)) {
-                throw new \InvalidArgumentException('Invalid user gender!');
-            }
-            if (!User::isStatusValid($status)) {
-                throw new \InvalidArgumentException('Invalid user status!');
-            }
+            ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = User::getValidatedParams($_POST);
 
             User::update($user_id, $name, $email, $gender, $status);
 

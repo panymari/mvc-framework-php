@@ -39,6 +39,7 @@ class User
         return $this->status;
     }
 
+
     // SET METHODS
     public function setName(string $name)
     {
@@ -101,6 +102,62 @@ class User
         $result->execute();
 
         return $result->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get exist user's status.
+     *
+     * @return array
+     */
+    public static function getUserStatus(): array
+    {
+        $connect = Db::getConnection();
+
+        $results = $connect->query('SELECT DISTINCT status FROM users;');
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get exist user's gender.
+     *
+     * @return array
+     */
+    public static function getUserGender(): array
+    {
+        $connect = Db::getConnection();
+
+        $results = $connect->query('SELECT DISTINCT gender FROM users;');
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Check is user's fields are valid.
+     *
+     * @param array $obj
+     *
+     * @return array
+     */
+
+    public static function getValidatedParams(array $obj): array
+    {
+        ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = $obj;
+
+        if (!self::isNameValid($name)) {
+            throw new \InvalidArgumentException('Invalid user name!');
+        }
+        if (!self::isEmailValid($email)) {
+            throw new \InvalidArgumentException('Invalid user email!');
+        }
+        if (!self::isGenderValid($gender)) {
+            throw new \InvalidArgumentException('Invalid user gender!');
+        }
+        if (!self::isStatusValid($status)) {
+            throw new \InvalidArgumentException('Invalid user status!');
+        }
+
+        return $obj;
     }
 
     // CRUD OPERATIONS
