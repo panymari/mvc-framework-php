@@ -10,8 +10,8 @@ class User
     protected int $id;
     protected string $name;
     protected string $email;
-    protected string $gender;
-    protected string $status;
+    public static array $gender = ["male", "female"];
+    public static array $status = ["active", "inactive"];
 
     // GET METHODS
     public function getId(): int
@@ -29,16 +29,6 @@ class User
         return $this->email;
     }
 
-    public function getGender(): string
-    {
-        return $this->gender;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
 
     // SET METHODS
     public function setName(string $name)
@@ -51,12 +41,12 @@ class User
         $this->email = $email;
     }
 
-    public function setGender(string $gender)
+    public function setGender(array $gender)
     {
         $this->gender = $gender;
     }
 
-    public function setStatus(string $status)
+    public function setStatus(array $status)
     {
         $this->status = $status;
     }
@@ -104,33 +94,6 @@ class User
         return $result->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Get exist user's status.
-     *
-     * @return array
-     */
-    public static function getUserStatus(): array
-    {
-        $connect = Db::getConnection();
-
-        $results = $connect->query('SELECT DISTINCT status FROM users;');
-
-        return $results->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Get exist user's gender.
-     *
-     * @return array
-     */
-    public static function getUserGender(): array
-    {
-        $connect = Db::getConnection();
-
-        $results = $connect->query('SELECT DISTINCT gender FROM users;');
-
-        return $results->fetchAll(PDO::FETCH_ASSOC);
-    }
 
     /**
      * Check is user's fields are valid.

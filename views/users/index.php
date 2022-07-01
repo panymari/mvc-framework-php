@@ -26,30 +26,22 @@
         <tbody>
         <?php foreach ($users as $user): ?>
             <tr>
-                <form method="post" action="../../config/action.php">
-                    <td>
-                        <input readonly style="color: black; font-weight: bold; background: transparent; border: 0; width: 3rem"
-                               name="user_id" type="text" value="<?= $user['id'] ?>"></td>
+                    <th><?= $user['id'] ?></th>
                     <td><?= $user['name'] ?></td>
                     <td><?= $user['email'] ?></td>
                     <td><?= $user['gender'] ?></td>
                     <td><?= $user['status'] ?></td>
                     <td>
-                            <input name="action" type="submit" class="btn btn-primary" value="edit">
+                        <a href="user/edit/<?= $user['id'] ?>" class="btn btn-primary">Edit</a>
                     </td>
                     <td>
-                            <input name="action" type="submit" onclick="return confirm('Are you sure?')"
-                                   class="btn btn-danger" value="delete">
+                        <a href="user/delete/<?= $user['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                     </td>
-                </form>
             </tr>
         <?php endforeach ?>
         </tbody>
     </table>
-    <form method="post" action="../../config/action.php">
-        <input name="action" type="submit"
-               class="btn btn-dark" value="create">
-    </form>
+    <a href="user/create" class="btn btn-dark">Create</a>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous" defer></script>

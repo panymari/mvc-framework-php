@@ -15,7 +15,6 @@ class UserController
     public function index()
     {
         $users = User::all();
-        $statuses = User::getUserStatus();
 
         require VIEW_ROOT_USERS . 'index.php';
     }
@@ -49,8 +48,10 @@ class UserController
     public function edit($user_id)
     {
         $user = User::getUserById($user_id);
-        $statuses = User::getUserStatus();
-        $genders = User::getUserGender();
+
+        $userObj = new User();
+        $statuses = User::$status;
+        $genders = User::$gender;
 
         if (isset($_POST['edit'])) {
             ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = User::getValidatedParams($_POST);
