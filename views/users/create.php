@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <style><?php include VIEW_ROOT_USERS . '/custom.css'; ?></style>
+    <link rel="stylesheet" href="<?php ROOT_REF ?>/views/users/custom.css" type="text/css">
 </head>
 <body>
 <div class="container">
