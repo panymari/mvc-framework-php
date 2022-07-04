@@ -20,7 +20,8 @@ Use separate CSS files for styles.
 
 # run the application
 * run `composer install`
-* run migration of creating users table by executing `composer create-users-table` from the project root directory
-* run migration of full feeling the db tables by executing `composer seed-users` from the project root directory
+* create environment.php file on your root directory
+* get your authorization token on the website [https://gorest.co.in](https://gorest.co.in)
+* paste your token on the environment.php folder using this syntax `$_ENV['YOUR_ACCESS_TOKEN'] = YOUR_ACCESS_TOKEN`
 * start php server by running command `php -S 127.0.0.1:8080`
 * Open in browser http://127.0.0.1:8080/user

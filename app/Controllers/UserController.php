@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Components\RestApiConnection;
 use App\Models\User;
 
 class UserController
@@ -14,7 +15,7 @@ class UserController
 
     public function index()
     {
-        $users = User::all();
+        $users = RestApiConnection::connect('https://gorest.co.in/public/v2/users', 'get');
 
         require VIEW_ROOT_USERS . 'index.php';
     }
@@ -28,9 +29,11 @@ class UserController
     public function create()
     {
         if (isset($_POST['create'])) {
-            ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = User::getValidatedParams($_POST);
+            RestApiConnection::$user_data = User::getValidatedParams($_POST);
 
-            $user = User::create($name, $email, $gender, $status);
+            RestApiConnection::connect('post');
+
+            var_dump(RestApiConnection::connect('post'));
 
             redirect(301, USER_ROOT_REF);
         }
@@ -40,7 +43,9 @@ class UserController
 
     public function delete($user_id)
     {
-        User::delete($user_id);
+        RestApiConnection::$user_data = ['id' => $user_id];
+
+        RestApiConnection::connect("https://gorest.co.in/public/v2/users/$user_id", 'delete');
 
         redirect(301, $_SERVER['HTTP_REFERER']);
     }
@@ -54,9 +59,9 @@ class UserController
         $genders = User::$gender;
 
         if (isset($_POST['edit'])) {
-            ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = User::getValidatedParams($_POST);
+            RestApiConnection::$user_data = User::getValidatedParams($_POST);
 
-            User::update($user_id, $name, $email, $gender, $status);
+            RestApiConnection::connect("https://gorest.co.in/public/v2/users/$user_id", 'put');
 
             redirect(301, USER_ROOT_REF);
         }

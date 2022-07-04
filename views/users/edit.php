@@ -25,21 +25,21 @@
         <select id="gender" class="form-select field" name="gender">
             <?php
             $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($genders));
-            foreach ($it as $v) {
-                $selected = ($v === $user['gender']) ? 'selected="selected"' : '';
-                echo '<option value="'. $v .'" ' . $selected . ' >'. $v .'</option>';
-            }
-            ?>
+    foreach ($it as $v) {
+        $selected = ($v === $user['gender']) ? 'selected="selected"' : '';
+        echo '<option value="'. $v .'" ' . $selected . ' >'. $v .'</option>';
+    }
+    ?>
         </select>
         <label for="status">Status</label>
         <select id="status" class="form-select field" name="status">
             <?php
-            $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($statuses));
-            foreach ($it as $v) {
-                $selected = ($v === $user['status']) ? 'selected="selected"' : '';
-                echo '<option value="'. $v .'" ' . $selected . ' >'. $v .'</option>';
-            }
-            ?>
+    $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($statuses));
+    foreach ($it as $v) {
+        $selected = ($v === $user['status']) ? 'selected="selected"' : '';
+        echo '<option value="'. $v .'" ' . $selected . ' >'. $v .'</option>';
+    }
+    ?>
         </select>
         <input name="edit" type="submit" class="btn btn-primary" value="Edit">
     </form>

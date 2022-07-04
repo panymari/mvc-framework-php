@@ -8,7 +8,8 @@
     }
   ],
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-curl": "*"
   },
   "minimum-stability" : "dev",
   "autoload": {

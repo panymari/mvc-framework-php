@@ -1,0 +1,2 @@
+<?php
+$_ENV['YOUR_ACCESS_TOKEN'] = 'b5c0491deecdc29c0463600b05cef3def6171fe14f5325456e78dbe565ecc1c5';

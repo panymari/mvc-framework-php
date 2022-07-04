@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Components\Db;
+use App\Components\RestApiConnection;
 use PDO;
 
 class User
@@ -10,8 +11,8 @@ class User
     protected int $id;
     protected string $name;
     protected string $email;
-    public static array $gender = ["male", "female"];
-    public static array $status = ["active", "inactive"];
+    public static array $gender = ['male', 'female'];
+    public static array $status = ['active', 'inactive'];
 
     // GET METHODS
     public function getId(): int
@@ -80,18 +81,13 @@ class User
      *
      * @param int $id
      *
-     * @return mixed
+     * @return array|null
      */
-    public static function getUserById(int $id): mixed
+    public static function getUserById(int $id): ?array
     {
         $connect = Db::getConnection();
 
-        $sql = 'SELECT * FROM users WHERE id = :id';
-        $result = $connect->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_INT);
-        $result->execute();
-
-        return $result->fetch(PDO::FETCH_ASSOC);
+        return RestApiConnection::connect("https://gorest.co.in/public/v2/users/$id", 'get');
     }
 
 
@@ -105,7 +101,7 @@ class User
 
     public static function getValidatedParams(array $obj): array
     {
-        ['name' => $name, 'email' => $email, 'status' => $status, 'gender' => $gender] = $obj;
+        ['name' => $name, 'gender' => $gender, 'email' => $email, 'status' => $status] = $obj;
 
         if (!self::isNameValid($name)) {
             throw new \InvalidArgumentException('Invalid user name!');
