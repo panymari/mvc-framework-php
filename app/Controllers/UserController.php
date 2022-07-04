@@ -28,12 +28,19 @@ class UserController
 
     public function create()
     {
+        $statuses = User::$status;
+        $genders = User::$gender;
+
         if (isset($_POST['create'])) {
+            if (is_string(User::getValidatedParams($_POST))) {
+                $error = User::getValidatedParams($_POST);
+                require VIEW_ROOT_USERS . 'create.php';
+                die;
+            }
+
             RestApiConnection::$user_data = User::getValidatedParams($_POST);
 
-            RestApiConnection::connect('post');
-
-            var_dump(RestApiConnection::connect('post'));
+            RestApiConnection::connect('https://gorest.co.in/public/v2/users', 'post');
 
             redirect(301, USER_ROOT_REF);
         }
@@ -59,6 +66,11 @@ class UserController
         $genders = User::$gender;
 
         if (isset($_POST['edit'])) {
+            if (is_string(User::getValidatedParams($_POST))) {
+                $error = User::getValidatedParams($_POST);
+                require VIEW_ROOT_USERS . 'edit.php';
+                die;
+            }
             RestApiConnection::$user_data = User::getValidatedParams($_POST);
 
             RestApiConnection::connect("https://gorest.co.in/public/v2/users/$user_id", 'put');

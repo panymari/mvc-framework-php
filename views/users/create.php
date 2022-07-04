@@ -22,16 +22,39 @@
         </div>
         <label for="gender">Gender</label>
         <select id="gender" class="form-select field" name="gender">
-            <option value="male">male</option>
-            <option value="female">female</option>
+            <?php
+            $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($genders));
+            foreach ($it as $v) {
+                echo '<option value="'. $v .'">'. $v .'</option>';
+            }
+            ?>
         </select>
         <label for="status">Status</label>
         <select id="status" class="form-select field" name="status">
-            <option value="active">active</option>
-            <option value="inactive">inactive</option>
+            <?php
+            $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($statuses));
+            foreach ($it as $v) {
+                echo '<option value="'. $v .'" >'. $v .'</option>';
+            }
+            ?>
         </select>
         <input name="create" type="submit" class="btn btn-primary" value="Create">
     </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header red">
+                    <h5 class="modal-title"><?= $error ?></h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please try again :)</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -41,4 +64,9 @@
 </html>
 
 
+<?php
+if(isset($error)) {
+    echo '<script type="text/javascript">$("#myModal").modal("show");</script>';
+}
+?>
 

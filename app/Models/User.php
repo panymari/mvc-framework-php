@@ -99,21 +99,21 @@ class User
      * @return array
      */
 
-    public static function getValidatedParams(array $obj): array
+    public static function getValidatedParams(array $obj): array|string
     {
         ['name' => $name, 'gender' => $gender, 'email' => $email, 'status' => $status] = $obj;
 
         if (!self::isNameValid($name)) {
-            throw new \InvalidArgumentException('Invalid user name!');
+            return 'Invalid user name!';
         }
         if (!self::isEmailValid($email)) {
-            throw new \InvalidArgumentException('Invalid user email!');
+            return 'Invalid user email!';
         }
         if (!self::isGenderValid($gender)) {
-            throw new \InvalidArgumentException('Invalid user gender!');
+            return 'Invalid user gender!';
         }
         if (!self::isStatusValid($status)) {
-            throw new \InvalidArgumentException('Invalid user status!');
+            return 'Invalid user status!';
         }
 
         return $obj;
