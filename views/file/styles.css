@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    width: 20rem;
+    padding: 3rem;
+}
+
+.form-group * {
+    margin-bottom: 1rem;
+}
+
+.red {
+    color: red;
+}

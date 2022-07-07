@@ -32,15 +32,13 @@ class Router
 
                 $actionName = array_shift($segments);
 
-                $actionNameCorrect = str_contains($actionName, '?') ? array_key_last($_GET) : $actionName;
-
                 $parameters = $segments;
 
                 $controllerFile = 'App\\Controllers\\' . $controllerName;
 
                 $controllerObject = new $controllerFile();
 
-                $result = call_user_func_array([$controllerObject, $actionNameCorrect], $parameters);
+                $result = call_user_func_array([$controllerObject, $actionName], $parameters);
 
                 break;
             }
