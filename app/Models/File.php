@@ -30,7 +30,8 @@ class File
     public static function createFolder(string $folder)
     {
         if (!file_exists($folder)) {
-            @mkdir($folder, 0777); //create folder in server
+            @mkdir($folder, 0777, true); //create folder in server
+            chmod($folder, 0777); //change the file mode
         }
     }
 
@@ -41,17 +42,17 @@ class File
     {
 
         //Something to write to txt log
-        $log = date('F j, Y, g:i a').PHP_EOL.
-            'Attempt: '. $message .PHP_EOL.
-            'File name: '.$file_name.PHP_EOL.
-            'Type: '.$file_type.PHP_EOL.
-            'Size: '.$size.PHP_EOL.
-            '-------------------------'.PHP_EOL;
+        $log = date('F j, Y, g:i a') . PHP_EOL .
+            'Attempt: ' . $message . PHP_EOL .
+            'File name: ' . $file_name . PHP_EOL .
+            'Type: ' . $file_type . PHP_EOL .
+            'Size: ' . $size . PHP_EOL .
+            '-------------------------' . PHP_EOL;
 
         self::createFolder('logs/');
 
         //Save string to log, use FILE_APPEND to append.
-        file_put_contents(LOGS_FOLDER . '/upload_'.date('d-m-Y').'.log', $log, FILE_APPEND);
+        file_put_contents(LOGS_FOLDER . '/upload_' . date('d-m-Y') . '.log', $log, FILE_APPEND);
     }
 
     // CRUD OPERATIONS
