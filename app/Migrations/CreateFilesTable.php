@@ -6,18 +6,17 @@ use App\Components\Db;
 use App\Components\Migration;
 use PDOException;
 
-class CreateUserTable extends Migration
+class CreateFilesTable extends Migration
 {
-    public const TABLE_NAME = 'users';
+    public const TABLE_NAME = 'files';
 
     public static function up()
     {
-        $sql = 'CREATE TABLE `users`(' .
-            'id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,' .
-            'name VARCHAR(30) NOT NULL,' .
-            'email VARCHAR(30) NOT NULL UNIQUE,' .
-            'gender VARCHAR(30) NOT NULL,' .
-            'status VARCHAR(30) NOT NULL' .
+        $sql = 'CREATE TABLE `files`(' .
+            'id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,' .
+            'file_name VARCHAR(100) NOT NULL,' .
+            'type VARCHAR(100) NOT NULL,' .
+            'size VARCHAR(100) NOT NULL' .
             ')';
 
         (new Db())->getConnection()->query($sql);

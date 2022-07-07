@@ -1,27 +1,30 @@
-# mvc-framework-php
-Create a form for working with users using MVC, the data source is a MySQL database
-
-In the developed application, you must be able to add new users, edit user data, delete users, view the list of all users. You design the interface of the application and the structure of the MySQL database yourself.
-Use the following data to work with users
-email field "Email", name="email" - key field
-text field "Your first and last name", name="name"
-drop-down list "Gender" ( male, female ), name="gender"
-drop-down list "Status" ( active, inactive ), name="status"
-
-Prerequisites:
-use Bootstrap
-store data in MySQL
-make checks for field completeness and data correctness using JS and PHP
-
-When we start editing user data, the editable fields must be pre-filled with current data. For the "Delete" button, add a deletion confirmation using javascript code.
+# file-uploader
+Create file upload HTML form and allow users to upload files to the server
+Create an upload file field. Perform client-side validation of the file size (use any implementation
+you know) and allow only text files and images.
+When the file is uploaded, check if its format matches the above file types.
+If the file does not match the formats,
+reject it and show a message to the user. If it's not, check if your storage has enough space to save files.
+If it has not, show a message to the user. If yes, move the file to the 'uploads' folder inside your web
+root directory.
+Check if the folder exists. If it does not, create it first. Use '@'to create a directory.
+Answer in code comment, why you use '@'.
+Under the file upload form a list of all files from the folder 'uploads' should be displayed
+Get file info: file size, file name, file meta information (for images) and send it to the front-end as
+the response of the upload action and show to the user in a user-friendly way.
+Also, when downloading each file, you must write a log file. Place the log file in the /logs folder.
+Every day it is necessary to create a new log file. The format of the log file name is "upload_ddmmyyyy.log".
+Information about each attempt to upload a file to the server must be
+entered in the log file. Therefore, the log file must contain the Date, Time, file name, file size,
+information about whether the file was uploaded successfully (if it is not uploaded, then you
+need to write the reason to the log file).
 You should implement this application in OOP. Split logic and templates into separate files.
-Logic files should contain PHP code only.
+Logic files should contain PHP code only, while templates should contain only HTML and JS.
 Use separate CSS files for styles.
+For the View part you must use the Twig Template Engine, loaded through Composer.
 
 # run the application
 * run `composer install`
-* create environment.php file on your root directory
-* get your authorization token on the website [https://gorest.co.in](https://gorest.co.in)
-* paste your token on the environment.php folder using this syntax `$_ENV['YOUR_ACCESS_TOKEN'] = YOUR_ACCESS_TOKEN`
+* run migration of creating files table by executing `composer create-files-table` from the project root directory
 * start php server by running command `php -S 127.0.0.1:8080`
-* Open in browser http://127.0.0.1:8080/user
+* Open in browser http://127.0.0.1:8080/file

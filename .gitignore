@@ -1,5 +1,7 @@
 .php-cs-fixer.cache
 
-environment.php
-
 vendor/
+
+upload/
+
+logs/
