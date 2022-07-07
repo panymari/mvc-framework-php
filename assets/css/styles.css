@@ -13,3 +13,13 @@
 .red {
     color: red;
 }
+
+.footer {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+}
+
+nav {
+    margin-bottom: 2rem;
+}
