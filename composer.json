@@ -9,7 +9,8 @@
   ],
   "require": {
     "ext-pdo": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "twig/twig": "3.3.2"
   },
   "minimum-stability" : "dev",
   "autoload": {
@@ -24,10 +25,10 @@
     "create-user-table": "App\\Migrations\\CreateUserTable::up",
     "seed-users": "App\\Seeders\\UserSeeder::UserSeeder",
     "migrate": [
-      "@composer create-users-table"
+      "@composer create-user-table"
     ],
     "seed": [
-      "@composer seed-users"
+      "@composer seed-user"
     ]
   },
   "require-dev": {

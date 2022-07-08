@@ -14,10 +14,9 @@ class CreateUserTable extends Migration
     {
         $sql = 'CREATE TABLE `users`(' .
             'id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,' .
-            'name VARCHAR(30) NOT NULL,' .
             'email VARCHAR(30) NOT NULL UNIQUE,' .
-            'gender VARCHAR(30) NOT NULL,' .
-            'status VARCHAR(30) NOT NULL' .
+            'name VARCHAR(30) NOT NULL,' .
+            'password VARCHAR(150) NOT NULL' .
             ')';
 
         (new Db())->getConnection()->query($sql);

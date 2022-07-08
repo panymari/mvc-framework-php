@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'user/create' => 'user/create',
-    'user/edit/([0-9]+)' => 'user/edit/$1',
-    'user/delete/([0-9]+)' => 'user/delete/$1',
+    'user/login' => 'user/login',
+    'user/logout' => 'user/logout',
+    'user/profile' => 'user/profile',
     'user' => 'user/index',
 ];

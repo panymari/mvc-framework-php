@@ -2,81 +2,79 @@
 
 namespace App\Controllers;
 
-use App\Components\RestApiConnection;
+use App\Components\Session;
 use App\Models\User;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class UserController
 {
-    /**
-     * Display the list of users.
-     *
-     * @return void
-     */
+    private FilesystemLoader $loader;
+    protected Environment $twig;
+
+    public function __construct()
+    {
+        $this->loader = new FilesystemLoader('./views/authentication');
+        $this->twig = new Environment($this->loader);
+    }
 
     public function index()
     {
-        $users = RestApiConnection::connect('https://gorest.co.in/public/v2/users', 'get');
-
-        require VIEW_ROOT_USERS . 'index.php';
+        echo $this->twig->render('index.twig');
     }
 
     /**
-     * Create new user.
+     * Method to log in a previously registered user.
      *
      * @return void
      */
 
-    public function create()
+    public function login()
     {
-        $statuses = User::$status;
-        $genders = User::$gender;
+        if (isset($_POST['submit'])) {
+            ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
 
-        if (isset($_POST['create'])) {
             if (is_string(User::getValidatedParams($_POST))) {
                 $error = User::getValidatedParams($_POST);
-                require VIEW_ROOT_USERS . 'create.php';
+                echo $this->twig->render('logIn.twig', [
+                    'error' => $error,
+                ]);
                 die;
             }
+            $user = User::getUserByEmail($email);
+            if ($user) {
+                if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
+                    Session::start();
+                    Session::set('email', $user['email']); // create session for previously registered user
 
-            RestApiConnection::$user_data = User::getValidatedParams($_POST);
-
-            RestApiConnection::connect('https://gorest.co.in/public/v2/users', 'post');
-
-            redirect(301, USER_ROOT_REF);
-        }
-
-        require VIEW_ROOT_USERS . 'create.php';
-    }
-
-    public function delete($user_id)
-    {
-        RestApiConnection::$user_data = ['id' => $user_id];
-
-        RestApiConnection::connect("https://gorest.co.in/public/v2/users/$user_id", 'delete');
-
-        redirect(301, $_SERVER['HTTP_REFERER']);
-    }
-
-    public function edit($user_id)
-    {
-        $user = User::getUserById($user_id);
-
-        $userObj = new User();
-        $statuses = User::$status;
-        $genders = User::$gender;
-
-        if (isset($_POST['edit'])) {
-            if (is_string(User::getValidatedParams($_POST))) {
-                $error = User::getValidatedParams($_POST);
-                require VIEW_ROOT_USERS . 'edit.php';
+                    redirect(301, USER_PROFILE_REF);
+                }
+            } else {
+                $error = 'Login is incorrect.';
+                echo $this->twig->render('logIn.twig', [
+                    'error' => $error,
+                ]);
                 die;
             }
-            RestApiConnection::$user_data = User::getValidatedParams($_POST);
-
-            RestApiConnection::connect("https://gorest.co.in/public/v2/users/$user_id", 'put');
-
-            redirect(301, USER_ROOT_REF);
         }
-        require VIEW_ROOT_USERS . 'edit.php';
+        echo $this->twig->render('logIn.twig');
+    }
+
+    public function profile()
+    {
+        Session::start();
+        $user = User::getUserFromSession(); // get user from session
+        $message = 'Welcome back, ' . $user['name'] . '!';
+        echo $this->twig->render('profile.twig', [
+            'message' => $message,
+        ]);
+    }
+
+    public function logout()
+    {
+        Session::start();
+        Session::delete('email');
+
+        redirect(301, USER_ROOT_REF);
     }
 }
