@@ -47,13 +47,13 @@ class UserController
                     Session::set('email', $user['email']); // create session for previously registered user
 
                     redirect(301, USER_PROFILE_REF);
+                } else {
+                    $error = 'Login is incorrect.';
+                    echo $this->twig->render('login.twig', [
+                        'error' => $error,
+                    ]);
+                    die;
                 }
-            } else {
-                $error = 'Login is incorrect.';
-                echo $this->twig->render('login.twig', [
-                    'error' => $error,
-                ]);
-                die;
             }
         }
         echo $this->twig->render('login.twig');
