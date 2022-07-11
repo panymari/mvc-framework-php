@@ -3,7 +3,6 @@
 //common
 define('ROOT', $_SERVER['DOCUMENT_ROOT']); // root folder
 const CONFIG_ROOT = ROOT . '/config/'; // configuration root folder
-const VIEW_ROOT_USERS = ROOT . '/views/authentication/'; // folder with authentication views
 
 //ref
 define('ROOT_REF', 'http://' . $_SERVER['HTTP_HOST']);

@@ -21,28 +21,31 @@ class Router
     {
         $uri = $this->getURI();
 
-        $result = null;
         foreach ($this->routes as $uriPattern => $path) {
-            if (preg_match("~$uriPattern~", $uri)) {
-                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+            if (isset($this->routes[$uri])) {
+                if (preg_match("~$uriPattern~", $uri)) {
+                    $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
 
-                $segments = explode('/', $internalRoute);
-                $controllerName = array_shift($segments) . 'Controller';
-                $controllerName = ucfirst($controllerName);
+                    $segments = explode('/', $internalRoute);
+                    $controllerName = array_shift($segments) . 'Controller';
+                    $controllerName = ucfirst($controllerName);
 
-                $actionName = array_shift($segments);
+                    $actionName = array_shift($segments);
 
-                $actionNameCorrect = str_contains($actionName, '?') ? array_key_last($_GET) : $actionName;
+                    $actionNameCorrect = str_contains($actionName, '?') ? array_key_last($_GET) : $actionName;
 
-                $parameters = $segments;
+                    $parameters = $segments;
 
-                $controllerFile = 'App\\Controllers\\' . $controllerName;
+                    $controllerFile = 'App\\Controllers\\' . $controllerName;
 
-                $controllerObject = new $controllerFile();
+                    $controllerObject = new $controllerFile();
 
-                $result = call_user_func_array([$controllerObject, $actionNameCorrect], $parameters);
+                    call_user_func_array([$controllerObject, $actionNameCorrect], $parameters);
 
-                break;
+                    break;
+                }
+            } else {
+                redirect(404, '');
             }
         }
     }

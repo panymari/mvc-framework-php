@@ -16,7 +16,6 @@ class Session
     public static function set(string $name, string $value): string
     {
         $_SESSION[$name] = $value;
-
         return $_SESSION[$name];
     }
 
@@ -42,8 +41,6 @@ class Session
     public static function delete($name): bool
     {
         unset($_SESSION[$name]);
-        session_destroy();
-
         return true;
     }
 

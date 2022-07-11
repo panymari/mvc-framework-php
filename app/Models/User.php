@@ -33,28 +33,35 @@ class User
      *
      * @param array $obj
      *
-     * @return array
+     * @return string
      */
 
-    public static function getValidatedParams(array $obj): array|string
+    public static function checkTheValidation(array $obj): string
     {
         ['email' => $email, 'name' => $name, 'password' => $password] = $obj;
 
-        if (empty($email) && empty($name) && empty($password)) {
-            return '';
-        }
+        $fields = [];
+        $status = true;
 
         if (!self::isNameValid($name)) {
-            return 'Invalid name!';
+            array_push($fields, 'name');
+            $status = false;
         }
         if (!self::isEmailValid($email)) {
-            return 'Invalid email!';
+            array_push($fields, 'email');
+            $status = false;
         }
         if (!self::isPasswordValid($password)) {
-            return 'Invalid password!';
+            array_push($fields, 'password');
+            $status = false;
         }
 
-        return $obj;
+        return json_encode(
+            [
+                'fields' => $fields,
+                'status' => $status,
+            ]
+        );
     }
 
     // CRUD OPERATIONS
@@ -73,7 +80,9 @@ class User
     {
         $connect = Db::getConnection();
 
-        $sql = 'INSERT INTO users (email, name, password) VALUES (:email, :name, :password)';
+        $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = 'INSERT INTO users (email, name, password) VALUES (:email, :name, :hash_password)';
 
         $result = $connect->prepare($sql);
 

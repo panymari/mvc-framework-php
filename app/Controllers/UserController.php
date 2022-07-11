@@ -34,13 +34,17 @@ class UserController
         if (isset($_POST['submit'])) {
             ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
 
-            if (is_string(User::getValidatedParams($_POST))) {
-                $error = User::getValidatedParams($_POST);
-                echo $this->twig->render('logIn.twig', [
-                    'error' => $error,
+            $validatedObj = json_decode(User::checkTheValidation($_POST), true);
+
+
+            var_dump($validatedObj['fields']);
+            if ($validatedObj['status'] === false) {
+                echo $this->twig->render('login.twig', [
+                    'fields' => $validatedObj['fields'],
                 ]);
                 die;
             }
+
             $user = User::getUserByEmail($email);
             if ($user) {
                 if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
@@ -51,13 +55,13 @@ class UserController
                 }
             } else {
                 $error = 'Login is incorrect.';
-                echo $this->twig->render('logIn.twig', [
+                echo $this->twig->render('login.twig', [
                     'error' => $error,
                 ]);
                 die;
             }
         }
-        echo $this->twig->render('logIn.twig');
+        echo $this->twig->render('login.twig');
     }
 
     public function profile()
