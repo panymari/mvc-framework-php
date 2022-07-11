@@ -20,6 +20,7 @@ class UserController
 
     public function index()
     {
+        var_dump(date('Y-m-d H:i:s'));
         echo $this->twig->render('index.twig');
     }
 
@@ -75,5 +76,36 @@ class UserController
         Session::delete('email');
 
         redirect(301, USER_ROOT_REF);
+    }
+
+    public function signup()
+    {
+//        if (isset($_POST['submit'])) {
+//            ['email' => $email, 'name' => $name, 'password' => $password, 'confirmPassword' => $confirmPassword] = $_POST;
+//            $validatedObj = json_decode(User::checkTheValidation($_POST), true);
+//            if ($validatedObj['status'] === false) {
+//                echo $this->twig->render('signup.twig', [
+//                    'fields' => $validatedObj['fields'],
+//                ]);
+//                die;
+//            }
+//            $user = User::getUserByEmail($email);
+//            if ($user) {
+//                if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
+////                    Session::start();
+////                    Session::set('email', $user['email']); // create session for previously registered user
+//
+//
+//                    redirect(301, USER_PROFILE_REF);
+//                } else {
+//                    $error = 'Login is incorrect.';
+//                    echo $this->twig->render('login.twig', [
+//                        'error' => $error,
+//                    ]);
+//                    die;
+//                }
+//            }
+//        }
+        echo $this->twig->render('signup.twig');
     }
 }

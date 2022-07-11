@@ -16,7 +16,8 @@ class CreateUserTable extends Migration
             'id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,' .
             'email VARCHAR(30) NOT NULL UNIQUE,' .
             'name VARCHAR(30) NOT NULL,' .
-            'password VARCHAR(150) NOT NULL' .
+            'password VARCHAR(150) NOT NULL,' .
+            'create_date DATE' .
             ')';
 
         (new Db())->getConnection()->query($sql);

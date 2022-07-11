@@ -76,19 +76,23 @@ class User
      * @return mixed
      */
 
-    public static function create(string $email, string $name, string $password): mixed
+    public static function create(string $email, string $name, string $password, string $created_date): mixed
     {
         $connect = Db::getConnection();
 
         $hash_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = 'INSERT INTO users (email, name, password) VALUES (:email, :name, :hash_password)';
+        $created_date = date('Y-m-d H:i:s');
+
+        $sql = 'INSERT INTO users (email, name, password, created_date) VALUES (:email, :name, :hash_password, :created_date)';
 
         $result = $connect->prepare($sql);
 
         $result->bindParam(':email', $email, PDO::PARAM_STR);
         $result->bindParam(':name', $name, PDO::PARAM_STR);
-        $result->bindParam(':password', $password, PDO::PARAM_STR);
+        $result->bindParam(':password', $hash_password, PDO::PARAM_STR);
+        $result->bindParam(':created_date', $created_date, PDO::PARAM_STR);
+
         $result->execute();
 
         return $result->fetch(PDO::FETCH_OBJ);
