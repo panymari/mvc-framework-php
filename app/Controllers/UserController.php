@@ -34,10 +34,10 @@ class UserController
     {
         if (isset($_POST['submit'])) {
             ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
-            $validatedObj = json_decode(User::checkTheValidation($_POST), true);
-            if ($validatedObj['status'] === false) {
+            $fields = User::checkData($_POST);
+            if (!empty($fields)) {
                 echo $this->twig->render('login.twig', [
-                    'fields' => $validatedObj['fields'],
+                    'fields' => $fields,
                 ]);
                 die;
             }
