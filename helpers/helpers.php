@@ -1,12 +1,7 @@
 <?php
 
-function redirect($code, $url)
+function redirect($code, $url): void
 {
-    if ($code === 301) {
-        header("Location: $url", true, $code);
-        exit;
-    } elseif ($code === 404) {
-        header("Location: $url", true, $code);
-        exit;
-    }
+    header("Location: $url", true, $code);
+    die;
 }

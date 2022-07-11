@@ -36,32 +36,23 @@ class User
      * @return string
      */
 
-    public static function checkTheValidation(array $obj): string
+    public static function checkData(array $obj): array|string
     {
         ['email' => $email, 'name' => $name, 'password' => $password] = $obj;
 
         $fields = [];
-        $status = true;
 
         if (!self::isNameValid($name)) {
             array_push($fields, 'name');
-            $status = false;
         }
         if (!self::isEmailValid($email)) {
             array_push($fields, 'email');
-            $status = false;
         }
         if (!self::isPasswordValid($password)) {
             array_push($fields, 'password');
-            $status = false;
         }
 
-        return json_encode(
-            [
-                'fields' => $fields,
-                'status' => $status,
-            ]
-        );
+        return $fields;
     }
 
     // CRUD OPERATIONS
