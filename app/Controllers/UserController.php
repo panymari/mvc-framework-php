@@ -33,18 +33,13 @@ class UserController
     {
         if (isset($_POST['submit'])) {
             ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
-
             $validatedObj = json_decode(User::checkTheValidation($_POST), true);
-
-
-            var_dump($validatedObj['fields']);
             if ($validatedObj['status'] === false) {
                 echo $this->twig->render('login.twig', [
                     'fields' => $validatedObj['fields'],
                 ]);
                 die;
             }
-
             $user = User::getUserByEmail($email);
             if ($user) {
                 if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
