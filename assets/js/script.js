@@ -33,20 +33,38 @@
 const confirmPassword = document.getElementById("password2");
 const password = document.getElementById("password");
 
-password.onfocusout
-
-$("#password").on("focusout", function () {
-    if ($(this).val() != $("#password2").val()) {
-        $("#password2").removeClass("valid").addClass("invalid");
+password.onfocusout = () => {
+    if(this.value !== confirmPassword.value) {
+        confirmPassword.classList.remove("valid");
+        confirmPassword.classList.add("invalid");
     } else {
-        $("#password2").removeClass("invalid").addClass("valid");
+        confirmPassword.classList.remove('invalid');
+        confirmPassword.classList.add('valid');
     }
-});
+}
 
-$("#password2").on("keyup", function () {
-    if ($("#password").val() != $(this).val()) {
-        $(this).removeClass("valid").addClass("invalid");
+confirmPassword.onkeyup = () => {
+    if(password.value !== this.value) {
+        this.classList.remove("valid");
+        this.classList.add("invalid");
     } else {
-        $(this).removeClass("invalid").addClass("valid");
+        this.classList.remove('invalid');
+        this.classList.add('valid');
     }
-});
+}
+
+// $("#password").on("focusout", function () {
+//     if ($(this).val() != $("#password2").val()) {
+//         $("#password2").removeClass("valid").addClass("invalid");
+//     } else {
+//         $("#password2").removeClass("invalid").addClass("valid");
+//     }
+// });
+//
+// $("#password2").on("keyup", function () {
+//     if ($("#password").val() != $(this).val()) {
+//         $(this).removeClass("valid").addClass("invalid");
+//     } else {
+//         $(this).removeClass("invalid").addClass("valid");
+//     }
+// });
