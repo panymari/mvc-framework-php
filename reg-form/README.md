@@ -1,39 +1,17 @@
 # authorisation form
-Create an authentication form. 
+Create HTML form with 'First Name', 'Last Name', 'Email', 'Confirm Email', 'Password', 'Confirm Password' fields. Perform client-side validation that Email is valid email. Password should contain at least one small character, at least one capital character, at least one digit, at least one special character and be not less than 6 characters long. 'Confirm Email' and 'Confirm Password' fields should correspond to their parent fields. If a user submits non-valid data, the form should be reloaded, but non-valid fields together with 'Password' and 'Confirm Password' should be cleared.
+Create a 'users' table to save new user. Use MySQL database. The table should have following fields:
+* id - unsigned int, primary index, auto increment; 
+* email - varchar, unique, non-empty; 
+* first_name - varchar, non-empty; 
+* last_name - varchar, non-empty; 
+* password - char, the size is based on hash algorithm that you choose; 
+* created_date - timestamp, current_timestamp.
 
-Authentication form must contain name, email and password fields. Password typing should be hidden, using function
-`password_hash()`. Therefore to check the correctness of the hash filed use `password_verify()` function.
-Make validation of fields with corresponding error message. Enable the submit button only if all fields are filled in together.
+Use PDO with transactions to interact with the database. If an error occurred when adding a user account to the database, display a message about it to the user interface.
+You should implement this application in OOP. Implement MVC pattern for this application. For the View part you must use the Twig Template Engine, loaded through Composer. Use separate CSS files for styles.
 
-Don't use AJAX to send requests to the back-end.
-
-Authenticate user over the file below:
-
-```
-<?php
-declare(strict_types=1);
-return [
-'user1@test.com' => [
-'name' => 'John',
-'password' => 'your_hash_here1', // use password_hash() to generate password in your code
-],
-'user2@test.com' => [
-'name' => 'Jane',
-'password' => 'your_hash_here2', // use
-password_hash() to generate password in your code
-],
-];
-```
-
-Use `session_start` to start the session and set the value of user’s email to global variable of session.
-
-If the user authenticated successfully,
-greet him by message 'Welcome back, {user name}!'. If no, show the message 'Login is incorrect.'.
-After getting the greet message, user should have an opportunity to press the log out button that
-clear the session and redirect user to the home page.
-
-You should implement this application in OOP. Implement MVC pattern for this application. 
-For the View part you must use the Twig Template Engine, loaded through Composer. Use separate CSS files for styles.
+**Tags:  PHP, OOP, MVC, Bootstrap, Twig, Composer, HTML, CSS, JS, GIT**
 
 # run the application
 * run `composer install`
