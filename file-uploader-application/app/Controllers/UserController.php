@@ -63,9 +63,17 @@ class UserController
         if (isset($_POST['submit'])) {
             ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
             $fields = User::checkData($_POST);
+            $login_attempts_acc = $_COOKIE["login_attempts"] ?? 0;
             if (!empty($fields)) {
                 echo $this->twig->render('login.twig', [
                     'fields' => $fields,
+                ]);
+                die;
+            }
+            if ($login_attempts_acc >= 3) {
+                $attemptsError = 'Please wait for 15 minutes.';
+                echo $this->twig->render('login.twig', [
+                    'error' => $attemptsError,
                 ]);
                 die;
             }
@@ -77,6 +85,11 @@ class UserController
 
                     redirect(301, USER_PROFILE_REF);
                 } else {
+                    $login_attempts_acc = $_COOKIE["login_attempts"] ?? 0;
+                    $login_attempts = $login_attempts_acc + 1;
+                    $seconds = 900; // 15 minutes
+                    setcookie("login_attempts", $login_attempts, time()+$seconds);
+
                     $error = 'Login is incorrect.';
                     echo $this->twig->render('login.twig', [
                         'error' => $error,
