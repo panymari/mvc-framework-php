@@ -16,7 +16,7 @@
 
 //confirmation check
 
-const confirmPassword = document.getElementById("password2");
+const confirmPassword = document.getElementById("confirmPassword");
 const password = document.getElementById("password");
 
 confirmPassword.onkeyup = () => {

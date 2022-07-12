@@ -477,12 +477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "2da982ad3c26da81b91db8d7b54abf3a5922e73c"
+                "reference": "2273d90f6d32b9fcb526c9394b214fd7abf7435b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/2da982ad3c26da81b91db8d7b54abf3a5922e73c",
-                "reference": "2da982ad3c26da81b91db8d7b54abf3a5922e73c",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/2273d90f6d32b9fcb526c9394b214fd7abf7435b",
+                "reference": "2273d90f6d32b9fcb526c9394b214fd7abf7435b",
                 "shasum": ""
             },
             "require": {
@@ -494,7 +494,7 @@
             "require-dev": {
                 "doctrine/cache": "^1.11 || ^2.0",
                 "doctrine/coding-standard": "^6.0 || ^8.1",
-                "phpstan/phpstan": "^0.12.20",
+                "phpstan/phpstan": "^1.4.10 || ^1.8.0",
                 "phpunit/phpunit": "^7.5 || ^8.0 || ^9.1.5",
                 "symfony/cache": "^4.4 || ^5.2",
                 "vimeo/psalm": "^4.10"
@@ -542,7 +542,7 @@
                 "issues": "https://github.com/doctrine/annotations/issues",
                 "source": "https://github.com/doctrine/annotations/tree/1.14.x"
             },
-            "time": "2021-10-15T21:17:00+00:00"
+            "time": "2022-07-02T10:50:20+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -626,12 +626,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "29d9dc888f7fc68e06bfeb11b46aed90cd3df611"
+                "reference": "b957583b2d761c7bd34364b52b2c2758648261e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/29d9dc888f7fc68e06bfeb11b46aed90cd3df611",
-                "reference": "29d9dc888f7fc68e06bfeb11b46aed90cd3df611",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/b957583b2d761c7bd34364b52b2c2758648261e8",
+                "reference": "b957583b2d761c7bd34364b52b2c2758648261e8",
                 "shasum": ""
             },
             "require": {
@@ -708,7 +708,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-27T16:56:33+00:00"
+            "time": "2022-07-12T06:51:07+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
@@ -875,12 +875,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "aa4f89e91c423b516ff226c50dc83f824011c253"
+                "reference": "e275e2d67d53964a3f13e056886ecd769edee021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/aa4f89e91c423b516ff226c50dc83f824011c253",
-                "reference": "aa4f89e91c423b516ff226c50dc83f824011c253",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/e275e2d67d53964a3f13e056886ecd769edee021",
+                "reference": "e275e2d67d53964a3f13e056886ecd769edee021",
                 "shasum": ""
             },
             "require": {
@@ -920,7 +920,7 @@
             "support": {
                 "source": "https://github.com/php-fig/event-dispatcher/tree/master"
             },
-            "time": "2021-02-08T21:15:39+00:00"
+            "time": "2022-06-29T17:22:39+00:00"
         },
         {
             "name": "psr/log",
@@ -979,12 +979,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "5eb6fb31c0af331c695f3645ad38302c1e643451"
+                "reference": "e84689bc9a62fc389d173605985f2b12974fbb12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/5eb6fb31c0af331c695f3645ad38302c1e643451",
-                "reference": "5eb6fb31c0af331c695f3645ad38302c1e643451",
+                "url": "https://api.github.com/repos/symfony/console/zipball/e84689bc9a62fc389d173605985f2b12974fbb12",
+                "reference": "e84689bc9a62fc389d173605985f2b12974fbb12",
                 "shasum": ""
             },
             "require": {
@@ -1066,7 +1066,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-27T17:10:44+00:00"
+            "time": "2022-07-07T07:36:45+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
