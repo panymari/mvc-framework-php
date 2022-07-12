@@ -1,0 +1,37 @@
+{
+  "name": "panymari/mvc-framework",
+  "description": " From for working with users using MVC.",
+  "authors": [
+    {
+      "name": "panymari",
+      "email": "panymari84@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*",
+    "ext-curl": "*",
+    "vendor/twig/twig": "3.3.2"
+  },
+  "minimum-stability" : "dev",
+  "autoload": {
+    "psr-4": {
+      "App\\" : "app"
+    },
+    "files": [
+      "helpers/helpers.php"
+    ]
+  },
+  "scripts": {
+    "create-user-table": "App\\Migrations\\CreateUserTable::up",
+    "seed-users": "App\\Seeders\\UserSeeder::UserSeeder",
+    "migrate": [
+      "@composer create-user-table"
+    ],
+    "seed": [
+      "@composer seed-user"
+    ]
+  },
+  "require-dev": {
+    "vendor/friendsofphp/php-cs-fixer": "dev-master"
+  }
+}

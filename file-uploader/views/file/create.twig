@@ -1,0 +1,64 @@
+{% extends 'base.twig' %}
+{% block title %}Create{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Please, upload file here</label>
+                <input type="file" id="inputFile" name="file" class="form-control-file" accept="image/*, text/*">
+                <button type="submit" name="upload" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal empty -->
+    <div class="modal fade" id="myModal1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header red">
+                    <h5 class="modal-title">Error</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The file is empty.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal size validation -->
+    <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header red">
+                    <h5 class="modal-title">Error</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The file is bigger then 2mb, please upload something smaller.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal size validation -->
+    <div class="modal fade" id="myModal3" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header red">
+                    <h5 class="modal-title">Error</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ error }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
