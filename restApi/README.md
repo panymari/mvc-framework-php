@@ -21,7 +21,7 @@ Use separate CSS files for styles.
 # run the application
 * run `composer install`
 * create environment.php file on your root directory
-* get your authorization token on the website [https://gorest.co.in](https://gorest.co.in)
+* get your authorization token on the website [https://gorest.co.in](index.php.in)
 * paste your token on the environment.php folder using this syntax `$_ENV['YOUR_ACCESS_TOKEN'] = YOUR_ACCESS_TOKEN`
 * start php server by running command `php -S 127.0.0.1:8080`
 * Open in browser http://127.0.0.1:8080/user
