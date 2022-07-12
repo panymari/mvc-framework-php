@@ -1,4 +1,4 @@
-# authorisation form
+# registration form
 Create HTML form with 'First Name', 'Last Name', 'Email', 'Confirm Email', 'Password', 'Confirm Password' fields. Perform client-side validation that Email is valid email. Password should contain at least one small character, at least one capital character, at least one digit, at least one special character and be not less than 6 characters long. 'Confirm Email' and 'Confirm Password' fields should correspond to their parent fields. If a user submits non-valid data, the form should be reloaded, but non-valid fields together with 'Password' and 'Confirm Password' should be cleared.
 Create a 'users' table to save new user. Use MySQL database. The table should have following fields:
 * id - unsigned int, primary index, auto increment; 
