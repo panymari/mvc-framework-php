@@ -6,14 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-<<<<<<< HEAD:restApi/views/users/create.php
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="<?php ROOT_REF ?>/restApi/viewspi/views/users/custom.css" type="text/css">
-=======
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="<?php ROOT_REF ?>/users-form/views-form/views/users/custom.css" type="text/css">
->>>>>>> origin/dev:users-form/views/users/edit.php
 </head>
 <body>
 <div class="container">
@@ -28,39 +22,16 @@
         </div>
         <label for="gender">Gender</label>
         <select id="gender" class="form-select field" name="gender">
-            <?php
-            $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($genders));
-            foreach ($it as $v) {
-                echo '<option value="'. $v .'">'. $v .'</option>';
-            }
-            ?>
+            <option value="male">male</option>
+            <option value="female">female</option>
         </select>
         <label for="status">Status</label>
         <select id="status" class="form-select field" name="status">
-            <?php
-            $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($statuses));
-            foreach ($it as $v) {
-                echo '<option value="'. $v .'" >'. $v .'</option>';
-            }
-            ?>
+            <option value="active">active</option>
+            <option value="inactive">inactive</option>
         </select>
         <input name="create" type="submit" class="btn btn-primary" value="Create">
     </form>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header red">
-                    <h5 class="modal-title"><?= $error ?></h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Please try again :)</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -70,9 +41,4 @@
 </html>
 
 
-<?php
-if(isset($error)) {
-    echo '<script type="text/javascript">$("#myModal").modal("show");</script>';
-}
-?>
 
