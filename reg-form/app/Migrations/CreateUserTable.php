@@ -17,7 +17,7 @@ class CreateUserTable extends Migration
             'email VARCHAR(30) NOT NULL UNIQUE,' .
             'name VARCHAR(30) NOT NULL,' .
             'password VARCHAR(150) NOT NULL,' .
-            'create_date DATE' .
+            'created_date DATETIME' .
             ')';
 
         (new Db())->getConnection()->query($sql);

@@ -15,10 +15,10 @@
   "minimum-stability" : "dev",
   "autoload": {
     "psr-4": {
-      "App\\" : "app"
+      "App\\" : "reg-form/app"
     },
     "files": [
-      "helpers/helpers.php"
+      "reg-form/helpers/helpers.php"
     ]
   },
   "scripts": {

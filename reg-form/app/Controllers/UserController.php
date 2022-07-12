@@ -20,7 +20,6 @@ class UserController
 
     public function index()
     {
-        var_dump(date('Y-m-d H:i:s'));
         echo $this->twig->render('index.twig');
     }
 
@@ -64,7 +63,7 @@ class UserController
     {
         Session::start();
         $user = User::getUserFromSession(); // get user from session
-        $message = 'Welcome back, ' . $user['name'] . '!';
+        $message = 'Hello, ' . $user['name'] . '!';
         echo $this->twig->render('profile.twig', [
             'message' => $message,
         ]);
@@ -80,32 +79,31 @@ class UserController
 
     public function signup()
     {
-//        if (isset($_POST['submit'])) {
-//            ['email' => $email, 'name' => $name, 'password' => $password, 'confirmPassword' => $confirmPassword] = $_POST;
-//            $validatedObj = json_decode(User::checkTheValidation($_POST), true);
-//            if ($validatedObj['status'] === false) {
-//                echo $this->twig->render('signup.twig', [
-//                    'fields' => $validatedObj['fields'],
-//                ]);
-//                die;
-//            }
-//            $user = User::getUserByEmail($email);
-//            if ($user) {
-//                if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
-////                    Session::start();
-////                    Session::set('email', $user['email']); // create session for previously registered user
-//
-//
-//                    redirect(301, USER_PROFILE_REF);
-//                } else {
-//                    $error = 'Login is incorrect.';
-//                    echo $this->twig->render('login.twig', [
-//                        'error' => $error,
-//                    ]);
-//                    die;
-//                }
-//            }
-//        }
+        if (isset($_POST['submit'])) {
+            ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
+            $fields = User::checkData($_POST);
+            if (!empty($fields)) {
+                echo $this->twig->render('signup.twig', [
+                    'fields' => $fields,
+                ]);
+                die;
+            }
+            $user = User::getUserByEmail($email);
+            if ($user) {
+                $error = 'This user have already registered.';
+                echo $this->twig->render('signup.twig', [
+                    'error' => $error,
+                ]);
+                die;
+            } else {
+                var_dump("jkkj");
+                User::create($email, $name, $password);
+                Session::start();
+                Session::set('email', $email); // create session for user
+
+                redirect(301, USER_PROFILE_REF);
+            }
+        }
         echo $this->twig->render('signup.twig');
     }
 }
