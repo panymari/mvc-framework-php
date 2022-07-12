@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/');
+    ->in(__DIR__ . '.php-cs-fixer.php/');
 
 $config = new PhpCsFixer\Config();
 return $config
@@ -53,5 +53,5 @@ return $config
         'phpdoc_var_without_name' => true,
     ])
     ->setLineEnding("\n")
-    ->setCacheFile(__DIR__.'\.php-cs-fixer.cache')
+    ->setCacheFile(__DIR__ . '\.php-cs-fixer.cache')
     ->setFinder($finder);

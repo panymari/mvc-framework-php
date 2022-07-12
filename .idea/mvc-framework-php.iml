@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/polyfill-php81" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/filesystem" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/options-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/console" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/deprecation-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/event-dispatcher-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/polyfill-intl-normalizer" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/stopwatch" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/doctrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/psr/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/php-cs-fixer/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/auth-form/vendor/friendsofphp/php-cs-fixer" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
