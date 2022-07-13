@@ -55,6 +55,39 @@ class User
         return $fields;
     }
 
+    // check is file is existed and if not create it
+
+
+
+    // WRITE LOG FILE
+
+    public static function writeLogFile()
+    {
+        $start_locked_time = date('d.m.Y H:i:s', Session::get("locked_time"));
+        $diff = time() - Session::get("locked_time");
+        $last = 900 - $diff;
+        $end = $last + Session::get("locked_time");
+        $end_locked_time = date('d.m.Y H:i:s', $end);
+
+        $user_api = Session::get("user_api");
+
+        $attacker_email = Session::get("attacker_email");
+
+        //log attacker IP-address and email, start and end blocking period
+        //Something to write to txt log
+        $log = date('F j, Y, g:i a') . PHP_EOL .
+            'IP-address: ' . $user_api . PHP_EOL .
+            'email: ' . $attacker_email . PHP_EOL .
+            'start period: ' . $start_locked_time . PHP_EOL .
+            'block period: ' . $end_locked_time . PHP_EOL .
+            '-------------------------' . PHP_EOL;
+
+        createFolder('logs/');
+
+        //Save string to log, use FILE_APPEND to append.
+        file_put_contents(LOGS_FOLDER . '/api-attack_' . date('d-m-Y') . '.log', $log, FILE_APPEND);
+    }
+
     // CRUD OPERATIONS
 
     /**

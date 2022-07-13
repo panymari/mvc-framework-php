@@ -20,7 +20,18 @@ class UserController
 
     public function index()
     {
-        echo $this->twig->render('index.twig');
+        Session::start();
+
+        $diff = time() - Session::get("locked_time");
+        $last = 900 - $diff;
+
+        if ($diff > 900) {
+            $last = 0;
+        }
+
+        echo $this->twig->render('index.twig', [
+            'diffTime' => $last
+        ]);
     }
 
     public function signup()
@@ -61,6 +72,8 @@ class UserController
     public function login()
     {
         if (isset($_POST['submit'])) {
+            Session::start();
+
             ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
             $fields = User::checkData($_POST);
             $login_attempts_acc = $_COOKIE["login_attempts"] ?? 0;
@@ -70,53 +83,72 @@ class UserController
                 ]);
                 die;
             }
-            if ($login_attempts_acc >= 3) {
-                $attemptsError = 'Please wait for 15 minutes.';
-                echo $this->twig->render('login.twig', [
-                    'error' => $attemptsError,
-                ]);
-                die;
-            }
-            $user = User::getUserByEmail($email);
-            if ($user) {
-                if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
-                    Session::start();
-                    Session::set('email', $user['email']); // create session for previously registered user
 
-                    redirect(301, USER_PROFILE_REF);
-                } else {
-                    $login_attempts_acc = $_COOKIE["login_attempts"] ?? 0;
-                    $login_attempts = $login_attempts_acc + 1;
-                    $seconds = 900; // 15 minutes
-                    setcookie("login_attempts", $login_attempts, time()+$seconds);
+            $locked_time = Session::get("locked_time") ?? 0;
+            $difference = time() - $locked_time;
+            if ($login_attempts_acc >= 3 || $difference < 900) {
+                if (str_starts_with($_SERVER['REMOTE_ADDR'], Session::get("user_api"))) {
+                    $attemptsError = 'Please wait for 15 minutes.';
 
-                    $error = 'Login is incorrect.';
                     echo $this->twig->render('login.twig', [
-                        'error' => $error,
+                        'error' => $attemptsError,
                     ]);
                     die;
                 }
+            } else {
+                Session::delete("locked_time");
+                Session::delete("user_api");
+                Session::delete("attacker_email");
+            }
+
+        $user = User::getUserByEmail($email);
+        if ($user) {
+            if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
+                Session::set('email', $user['email']); // create session for previously registered user
+
+                redirect(301, USER_PROFILE_REF);
+            } else {
+                $login_attempts = $login_attempts_acc + 1;
+                $seconds = 900; // 15 minutes
+                setcookie("login_attempts", $login_attempts, time() + $seconds);
+
+                if ($login_attempts >= 3) {
+                    Session::set("user_api", $_SERVER['REMOTE_ADDR']);
+                    Session::set("locked_time", time());
+                    Session::set("attacker_email", $email);
+
+                    User::writeLogFile();
+                }
+
+                $error = 'Login is incorrect.';
+                echo $this->twig->render('login.twig', [
+                    'error' => $error,
+                ]);
+                die;
             }
         }
-        echo $this->twig->render('login.twig');
     }
+echo $this->twig->render('login.twig');
+}
 
-    public function profile()
-    {
-        Session::start();
-        $user = User::getUserFromSession(); // get user from session
-        $message = 'Hello, ' . $user['name'] . '!';
-        echo $this->twig->render('profile.twig', [
-            'message' => $message,
-        ]);
-    }
+public
+function profile()
+{
+    Session::start();
+    $user = User::getUserFromSession(); // get user from session
+    $message = 'Hello, ' . $user['name'] . '!';
+    echo $this->twig->render('profile.twig', [
+        'message' => $message,
+    ]);
+}
 
-    public function logout()
-    {
-        Session::start();
-        Session::delete('email');
+public
+function logout()
+{
+    Session::start();
+    Session::delete('email');
 
-        redirect(301, USER_ROOT_REF);
-    }
+    redirect(301, USER_ROOT_REF);
+}
 
 }

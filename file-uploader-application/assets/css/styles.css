@@ -13,3 +13,25 @@
 .center {
     text-align: center;
 }
+
+.count {
+    font-size: 30px;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.index-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.33);
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 35rem;
+    margin: 3rem auto;
+}
+
+.index-container * {
+    margin-bottom: 1rem;
+}
