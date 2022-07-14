@@ -1,1 +1,7 @@
-.idea/
+.php-cs-fixer.cache
+
+vendor/
+
+upload/
+
+logs/

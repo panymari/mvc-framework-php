@@ -22,7 +22,7 @@ class UserController
     {
         Session::start();
 
-        $diff = time() - Session::get("locked_time");
+        $diff = time() - Session::get('locked_time');
         $last = 900 - $diff;
 
         if ($diff > 900) {
@@ -30,7 +30,7 @@ class UserController
         }
 
         echo $this->twig->render('index.twig', [
-            'diffTime' => $last
+            'diffTime' => $last,
         ]);
     }
 
@@ -57,7 +57,7 @@ class UserController
                 Session::start();
                 Session::set('email', $email); // create session for user
 
-                redirect(301, USER_PROFILE_REF);
+                redirect(301, ROOT_REF_FILE);
             }
         }
         echo $this->twig->render('signup.twig');
@@ -71,12 +71,26 @@ class UserController
 
     public function login()
     {
+        if (isset($_COOKIE['user_id'])) {
+            $user = User::getUserById($_COOKIE['user_id']);
+            ['email' => $email, 'name' => $name, 'password' => $password] = $user;
+
+
+            echo $this->twig->render('login.twig', [
+                'email' => $email,
+                'name' => $name,
+                'password' => $password,
+            ]);
+        } else {
+            echo $this->twig->render('login.twig');
+        }
         if (isset($_POST['submit'])) {
             Session::start();
 
-            ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
+            ['email' => $email, 'name' => $name, 'password' => $password, 'check' => $check] = $_POST;
+
             $fields = User::checkData($_POST);
-            $login_attempts_acc = $_COOKIE["login_attempts"] ?? 0;
+            $login_attempts_acc = $_COOKIE['login_attempts'] ?? 0;
             if (!empty($fields)) {
                 echo $this->twig->render('login.twig', [
                     'fields' => $fields,
@@ -84,10 +98,10 @@ class UserController
                 die;
             }
 
-            $locked_time = Session::get("locked_time") ?? 0;
+            $locked_time = Session::get('locked_time') ?? 0;
             $difference = time() - $locked_time;
             if ($login_attempts_acc >= 3 || $difference < 900) {
-                if (str_starts_with($_SERVER['REMOTE_ADDR'], Session::get("user_api"))) {
+                if (str_starts_with($_SERVER['REMOTE_ADDR'], Session::get('user_api'))) {
                     $attemptsError = 'Please wait for 15 minutes.';
 
                     echo $this->twig->render('login.twig', [
@@ -96,59 +110,59 @@ class UserController
                     die;
                 }
             } else {
-                Session::delete("locked_time");
-                Session::delete("user_api");
-                Session::delete("attacker_email");
+                Session::delete('locked_time');
+                Session::delete('user_api');
+                Session::delete('attacker_email');
             }
 
-        $user = User::getUserByEmail($email);
-        if ($user) {
-            if ($user['name'] === $name && $user['email'] === $email && password_verify($password, $user['password'])) {
-                Session::set('email', $user['email']); // create session for previously registered user
+            $user = User::getUserByEmail($email);
+            if ($user) {
+                if ($user['name'] === $name && $user['email'] === $email && (password_verify($password, $user['password']) || $password === $user['password'])) {
+                    Session::set('email', $user['email']); // create session for previously registered user
+                    if ($check === 'on') {
+                        $weekToSec = 604800;
+                        setcookie('user_id', $user['id'], time() + $weekToSec);
+                    }
 
-                redirect(301, USER_PROFILE_REF);
-            } else {
-                $login_attempts = $login_attempts_acc + 1;
-                $seconds = 900; // 15 minutes
-                setcookie("login_attempts", $login_attempts, time() + $seconds);
+                    redirect(301, ROOT_REF_FILE);
+                } else {
+                    $login_attempts = $login_attempts_acc + 1;
+                    $seconds = 900; // 15 minutes
+                    setcookie('login_attempts', $login_attempts, time() + $seconds);
 
-                if ($login_attempts >= 3) {
-                    Session::set("user_api", $_SERVER['REMOTE_ADDR']);
-                    Session::set("locked_time", time());
-                    Session::set("attacker_email", $email);
+                    if ($login_attempts >= 3) {
+                        Session::set('user_api', $_SERVER['REMOTE_ADDR']);
+                        Session::set('locked_time', time());
+                        Session::set('attacker_email', $email);
 
-                    User::writeLogFile();
+                        User::writeLogFile();
+                    }
+
+                    $error = 'Login is incorrect.';
+                    echo $this->twig->render('login.twig', [
+                        'error' => $error,
+                    ]);
+                    die;
                 }
-
-                $error = 'Login is incorrect.';
-                echo $this->twig->render('login.twig', [
-                    'error' => $error,
-                ]);
-                die;
             }
         }
     }
-echo $this->twig->render('login.twig');
-}
 
-public
-function profile()
-{
-    Session::start();
-    $user = User::getUserFromSession(); // get user from session
-    $message = 'Hello, ' . $user['name'] . '!';
-    echo $this->twig->render('profile.twig', [
-        'message' => $message,
-    ]);
-}
+    public function profile()
+    {
+        Session::start();
+        $user = User::getUserFromSession(); // get user from session
+        $message = 'Hello, ' . $user['name'] . '!';
+        echo $this->twig->render('profile.twig', [
+            'message' => $message,
+        ]);
+    }
 
-public
-function logout()
-{
-    Session::start();
-    Session::delete('email');
+    public function logout()
+    {
+        Session::start();
+        Session::delete('email');
 
-    redirect(301, USER_ROOT_REF);
-}
-
+        redirect(301, USER_ROOT_REF);
+    }
 }

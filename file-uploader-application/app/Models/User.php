@@ -63,15 +63,15 @@ class User
 
     public static function writeLogFile()
     {
-        $start_locked_time = date('d.m.Y H:i:s', Session::get("locked_time"));
-        $diff = time() - Session::get("locked_time");
+        $start_locked_time = date('d.m.Y H:i:s', Session::get('locked_time'));
+        $diff = time() - Session::get('locked_time');
         $last = 900 - $diff;
-        $end = $last + Session::get("locked_time");
+        $end = $last + Session::get('locked_time');
         $end_locked_time = date('d.m.Y H:i:s', $end);
 
-        $user_api = Session::get("user_api");
+        $user_api = Session::get('user_api');
 
-        $attacker_email = Session::get("attacker_email");
+        $attacker_email = Session::get('attacker_email');
 
         //log attacker IP-address and email, start and end blocking period
         //Something to write to txt log
@@ -139,6 +139,18 @@ class User
         $sql = 'SELECT * FROM users WHERE email = :email';
         $result = $connect->prepare($sql);
         $result->bindParam(':email', $email, PDO::PARAM_STR);
+        $result->execute();
+
+        return $result->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getUserById(string $id): mixed
+    {
+        $connect = Db::getConnection();
+
+        $sql = 'SELECT * FROM users WHERE id = :id';
+        $result = $connect->prepare($sql);
+        $result->bindParam(':id', $id, PDO::PARAM_STR);
         $result->execute();
 
         return $result->fetch(PDO::FETCH_ASSOC);

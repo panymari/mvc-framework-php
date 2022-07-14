@@ -2,8 +2,8 @@
 
 function redirect($code, $url = null): void
 {
-    $header = !isset($url)
-        ?  "Location: " . USER_LOGIN_REF
+    $header = empty($url)
+        ? 'Location: ' . USER_LOGIN_REF
         : "Location: $url";
     header($header, true, $code);
 

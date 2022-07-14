@@ -626,12 +626,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "b957583b2d761c7bd34364b52b2c2758648261e8"
+                "reference": "76c9c0ec767630056278441e6153d3e690f8610e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/b957583b2d761c7bd34364b52b2c2758648261e8",
-                "reference": "b957583b2d761c7bd34364b52b2c2758648261e8",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/76c9c0ec767630056278441e6153d3e690f8610e",
+                "reference": "76c9c0ec767630056278441e6153d3e690f8610e",
                 "shasum": ""
             },
             "require": {
@@ -708,7 +708,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-12T06:51:07+00:00"
+            "time": "2022-07-13T09:54:31+00:00"
         },
         {
             "name": "php-cs-fixer/diff",

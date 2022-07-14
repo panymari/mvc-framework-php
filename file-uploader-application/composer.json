@@ -23,9 +23,11 @@
   },
   "scripts": {
     "create-user-table": "App\\Migrations\\CreateUserTable::up",
+    "create-file-table": "App\\Migrations\\CreateFilesTable::up",
     "seed-users": "App\\Seeders\\UserSeeder::UserSeeder",
     "migrate": [
-      "@composer create-user-table"
+      "@composer create-user-table",
+      "@composer create-file-table"
     ],
     "seed": [
       "@composer seed-user"
