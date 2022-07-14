@@ -35,7 +35,7 @@
             crossorigin="anonymous"></script>
     <script src="{{ ROOT_REF }}/file-uploader/assets/js/fileScript.js"></script>
     {% if (error is not same as('Success')) %}
-    <script type="text/javascript">$("#myModal3").modal("show");</script>
+    <script type="text/javascript">$("#clientErrorModal").modal("show");</script>
     {% endif %}
 {% endblock %}
 </body>

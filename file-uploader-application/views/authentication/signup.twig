@@ -48,7 +48,7 @@
     </form>
 </div>
 <!-- Modal validation -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="errorModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header red">
@@ -70,7 +70,7 @@
         crossorigin="anonymous"></script>
 <script src="{{ ROOT_REF }}/assets/js/script.js"></script>
 {% if error is defined %}
-    <script type="text/javascript">$("#myModal").modal("show");</script>
+    <script type="text/javascript">$("#errorModal").modal("show");</script>
 {% endif %}
 {% for field in fields %}
     {% if field is same as("name")  %}

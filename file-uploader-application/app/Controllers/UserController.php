@@ -73,6 +73,14 @@ class UserController
     {
         Session::start();
 
+        if (isset($_COOKIE['user_id'])) {
+            $user = User::getUserById($_COOKIE['user_id']);
+            Session::set('email', $user['email']);
+            redirect(301, ROOT_REF_FILE);
+        } else {
+            echo $this->twig->render('login.twig');
+        }
+
         if (isset($_POST['submit'])) {
 
             ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
@@ -135,13 +143,6 @@ class UserController
                     die;
                 }
             }
-        }
-        if (isset($_COOKIE['user_id'])) {
-            $user = User::getUserById($_COOKIE['user_id']);
-            Session::set('email', $user['email']);
-            redirect(301, ROOT_REF_FILE);
-        } else {
-            echo $this->twig->render('login.twig');
         }
     }
 

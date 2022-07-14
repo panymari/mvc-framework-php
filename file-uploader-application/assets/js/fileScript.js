@@ -3,12 +3,12 @@ $('#inputFile').bind('change', function(e) {
     const maxFileSize = 2 * 1024 * 1024;
 
     if(data.size === 0) {
-        $("#myModal1").modal("show");
+        $("#serverErrorModal").modal("show");
         $("#inputFile").val("");
     }
 
     if(data.size > maxFileSize) {
-        $("#myModal2").modal("show");
+        $("#bigSizeErrorModal").modal("show");
         $("#inputFile").val("");
     }
 });
