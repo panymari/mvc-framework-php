@@ -10,6 +10,8 @@ function redirect($code, $url = null): void
     die;
 }
 
+// check is file is existed and if not create it
+
 function createFolder(string $folder)
 {
     if (!file_exists($folder)) {

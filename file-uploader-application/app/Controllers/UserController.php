@@ -71,26 +71,16 @@ class UserController
 
     public function login()
     {
-        if (isset($_COOKIE['user_id'])) {
-            $user = User::getUserById($_COOKIE['user_id']);
-            ['email' => $email, 'name' => $name, 'password' => $password] = $user;
+        Session::start();
 
-
-            echo $this->twig->render('login.twig', [
-                'email' => $email,
-                'name' => $name,
-                'password' => $password,
-            ]);
-        } else {
-            echo $this->twig->render('login.twig');
-        }
         if (isset($_POST['submit'])) {
-            Session::start();
 
-            ['email' => $email, 'name' => $name, 'password' => $password, 'check' => $check] = $_POST;
+            ['email' => $email, 'name' => $name, 'password' => $password] = $_POST;
+
+            $check = $_POST['check'] ?? '';
 
             $fields = User::checkData($_POST);
-            $login_attempts_acc = $_COOKIE['login_attempts'] ?? 0;
+            $loginAttemptsAcc = $_COOKIE['login_attempts'] ?? 0;
             if (!empty($fields)) {
                 echo $this->twig->render('login.twig', [
                     'fields' => $fields,
@@ -98,9 +88,9 @@ class UserController
                 die;
             }
 
-            $locked_time = Session::get('locked_time') ?? 0;
-            $difference = time() - $locked_time;
-            if ($login_attempts_acc >= 3 || $difference < 900) {
+            $lockedTime = Session::get('locked_time') ?? 0;
+            $difference = time() - $lockedTime;
+            if ($loginAttemptsAcc >= 3 || $difference < 900) {
                 if (str_starts_with($_SERVER['REMOTE_ADDR'], Session::get('user_api'))) {
                     $attemptsError = 'Please wait for 15 minutes.';
 
@@ -126,7 +116,7 @@ class UserController
 
                     redirect(301, ROOT_REF_FILE);
                 } else {
-                    $login_attempts = $login_attempts_acc + 1;
+                    $login_attempts = $loginAttemptsAcc + 1;
                     $seconds = 900; // 15 minutes
                     setcookie('login_attempts', $login_attempts, time() + $seconds);
 
@@ -146,17 +136,15 @@ class UserController
                 }
             }
         }
+        if (isset($_COOKIE['user_id'])) {
+            $user = User::getUserById($_COOKIE['user_id']);
+            Session::set('email', $user['email']);
+            redirect(301, ROOT_REF_FILE);
+        } else {
+            echo $this->twig->render('login.twig');
+        }
     }
 
-    public function profile()
-    {
-        Session::start();
-        $user = User::getUserFromSession(); // get user from session
-        $message = 'Hello, ' . $user['name'] . '!';
-        echo $this->twig->render('profile.twig', [
-            'message' => $message,
-        ]);
-    }
 
     public function logout()
     {

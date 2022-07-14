@@ -82,7 +82,7 @@ class User
             'block period: ' . $end_locked_time . PHP_EOL .
             '-------------------------' . PHP_EOL;
 
-        createFolder('logs/');
+        createFolder(LOGS_FOLDER . '/');
 
         //Save string to log, use FILE_APPEND to append.
         file_put_contents(LOGS_FOLDER . '/api-attack_' . date('d-m-Y') . '.log', $log, FILE_APPEND);

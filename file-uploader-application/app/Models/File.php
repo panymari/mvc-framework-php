@@ -25,16 +25,6 @@ class File
         return false;
     }
 
-    // check is file is existed and if not create it
-
-    public static function createFolder(string $folder)
-    {
-        if (!file_exists($folder)) {
-            @mkdir($folder, 0777, true); //create folder in server
-            chmod($folder, 0777); //change the file mode
-        }
-    }
-
 
     // WRITE LOG FILE
 
@@ -49,7 +39,7 @@ class File
             'Size: ' . $size . PHP_EOL .
             '-------------------------' . PHP_EOL;
 
-        self::createFolder('logs/');
+        createFolder(LOGS_FOLDER . '/');
 
         //Save string to log, use FILE_APPEND to append.
         file_put_contents(LOGS_FOLDER . '/upload_' . date('d-m-Y') . '.log', $log, FILE_APPEND);

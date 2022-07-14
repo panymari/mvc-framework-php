@@ -41,42 +41,44 @@ class FileController
         $message = 'Success';
 
         if (isset($_POST['upload'])) {
-            $file = $_FILES['file']['name']; //give a unique name to each file
-            $file_loc = $_FILES['file']['tmp_name'];
-            $file_size = $_FILES['file']['size'];
-            $file_type = $_FILES['file']['type'];
+            $file = rand(1000, 100000) . "-" . $_FILES['file']['name']; //give a unique name to each file
+            $fileLoc = $_FILES['file']['tmp_name'];
+            $fileSize = $_FILES['file']['size'];
+            $fileType = $_FILES['file']['type'];
             $folder = 'upload/';
 
-            $new_size = $file_size / 1024; // convert file size in KB
-            $new_file_name = strtolower($file);
+            $newSize = $fileSize / 1024; // convert file size in KB
+            $newFileName = strtolower($file);
 
-            $final_file_name = str_replace('', '-', $new_file_name);
+            $finalFileName = str_replace('', '-', $newFileName);
 
-            if (!!File::isFormatValid($final_file_name)) {
+            if (!!File::isFormatValid($finalFileName)) {
                 $message = 'The format of the file is not valid.';
-                File::writeLogFile($message, $final_file_name, $file_type, $new_size);
+                File::writeLogFile($message, $finalFileName, $fileType, $newSize);
                 echo $this->twig->render('create.twig', [
                     'error' => $message,
                 ]);
                 die;
             }
 
-            File::createFolder($folder);
+            createFolder($folder);
 
             if (!disk_free_space(UPLOAD_FOLDER)) {
                 $message = 'Is not enough space in storage.';
-                File::writeLogFile($message, $final_file_name, $file_type, $new_size);
+                File::writeLogFile($message, $finalFileName, $fileType, $newSize);
                 echo $this->twig->render('create.twig', [
                     'error' => $message,
                 ]);
                 die;
             }
 
-            File::writeLogFile($message, $final_file_name, $file_type, $new_size);
 
-            if (move_uploaded_file($file_loc, $folder.$final_file_name)) {
-                File::create($final_file_name, $file_type, $new_size);
+            if (move_uploaded_file($fileLoc, $folder . $finalFileName)) {
+                File::create($finalFileName, $fileType, $newSize);
+            } else {
+                $message = 'Something went wrong, file is not uploaded.';
             }
+            File::writeLogFile($message, $finalFileName, $fileType, $newSize);
 
             redirect(301, ROOT_REF_FILE);
         }
