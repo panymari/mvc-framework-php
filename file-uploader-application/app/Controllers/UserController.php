@@ -11,6 +11,9 @@ class UserController
 {
     private FilesystemLoader $loader;
     protected Environment $twig;
+    private int $weekToSec = 604800;
+    private int $blockTime = 900;
+    private int $limitedAttempts = 3;
 
     public function __construct()
     {
@@ -20,17 +23,11 @@ class UserController
 
     public function index()
     {
-        Session::start();
-
-        $diff = time() - Session::get('locked_time');
-        $last = 900 - $diff;
-
-        if ($diff > 900) {
-            $last = 0;
-        }
+        // timer functionality
+        $leftTime = User::getLeftTime($this->blockTime);
 
         echo $this->twig->render('index.twig', [
-            'diffTime' => $last,
+            'diffTime' => $leftTime,
         ]);
     }
 
@@ -79,6 +76,7 @@ class UserController
 
             $check = $_POST['check'] ?? '';
 
+            // simple fields validation
             $fields = User::checkData($_POST);
             $loginAttemptsAcc = $_COOKIE['login_attempts'] ?? 0;
             if (!empty($fields)) {
@@ -88,9 +86,10 @@ class UserController
                 die;
             }
 
+            // check is user blocked show error, if else unblock user
             $lockedTime = Session::get('locked_time') ?? 0;
             $difference = time() - $lockedTime;
-            if ($loginAttemptsAcc >= 3 || $difference < 900) {
+            if ($loginAttemptsAcc >= $this->limitedAttempts || $difference < $this->blockTime) {
                 if (str_starts_with($_SERVER['REMOTE_ADDR'], Session::get('user_api'))) {
                     $attemptsError = 'Please wait for 15 minutes.';
 
@@ -100,33 +99,24 @@ class UserController
                     die;
                 }
             } else {
-                Session::delete('locked_time');
-                Session::delete('user_api');
-                Session::delete('attacker_email');
+                Session::delete(['locked_time', 'user_api', 'attacker_email']);
             }
 
+            // if user is existed in bd log in, if not show error
             $user = User::getUserByEmail($email);
             if ($user) {
                 if ($user['name'] === $name && $user['email'] === $email && (password_verify($password, $user['password']) || $password === $user['password'])) {
                     Session::set('email', $user['email']); // create session for previously registered user
-                    if ($check === 'on') {
-                        $weekToSec = 604800;
-                        setcookie('user_id', $user['id'], time() + $weekToSec);
-                    }
+
+                    User::rememberUser($check, $user['id'], $this->weekToSec);
 
                     redirect(301, ROOT_REF_FILE);
                 } else {
+                    // if attempts of log in is more than possible, block user
                     $login_attempts = $loginAttemptsAcc + 1;
-                    $seconds = 900; // 15 minutes
-                    setcookie('login_attempts', $login_attempts, time() + $seconds);
+                    setcookie('login_attempts', $login_attempts, time() + $this->blockTime);
 
-                    if ($login_attempts >= 3) {
-                        Session::set('user_api', $_SERVER['REMOTE_ADDR']);
-                        Session::set('locked_time', time());
-                        Session::set('attacker_email', $email);
-
-                        User::writeLogFile();
-                    }
+                    User::blockByAttempts($login_attempts, $this->limitedAttempts, $email);
 
                     $error = 'Login is incorrect.';
                     echo $this->twig->render('login.twig', [
@@ -148,12 +138,9 @@ class UserController
 
     public function logout()
     {
-        Session::start();
         $user_id = $_COOKIE['user_id'];
-        Session::delete('email');
 
-        $weekToSec = 604800;
-        setcookie('user_id', $user_id, time() - $weekToSec);
+        User::forgetUser($user_id, $this->weekToSec);
 
         redirect(301, USER_ROOT_REF);
     }

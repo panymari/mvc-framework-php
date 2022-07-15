@@ -13,11 +13,9 @@ class Session
      * @return string
      */
 
-    public static function set(string $name, string $value): string
+    public static function set(string $name, string $value)
     {
         $_SESSION[$name] = $value;
-
-        return $_SESSION[$name];
     }
 
     /**
@@ -39,11 +37,15 @@ class Session
      *
      * @return bool
      */
-    public static function delete($name): bool
+    public static function delete(string|array $name)
     {
-        unset($_SESSION[$name]);
-
-        return true;
+        if (is_string($name)) {
+            unset($_SESSION[$name]);
+        } else {
+            foreach ($name as $item) {
+                unset($_SESSION[$item]);
+            }
+        }
     }
 
     /**

@@ -41,7 +41,7 @@ class FileController
         $message = 'Success';
 
         if (isset($_POST['upload'])) {
-            $file = rand(1000, 100000) . "-" . $_FILES['file']['name']; //give a unique name to each file
+            $file = uniqid() . "-" . $_FILES['file']['name']; //give a unique name to each file
             $fileLoc = $_FILES['file']['tmp_name'];
             $fileSize = $_FILES['file']['size'];
             $fileType = $_FILES['file']['type'];

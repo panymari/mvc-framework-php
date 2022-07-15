@@ -25,9 +25,6 @@ class User
         return preg_match('/^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u', $password);
     }
 
-
-    // SELECT
-
     /**
      * Check is user's fields are valid.
      *
@@ -54,9 +51,6 @@ class User
 
         return $fields;
     }
-
-    // check is file is existed and if not create it
-
 
 
     // WRITE LOG FILE
@@ -122,13 +116,13 @@ class User
         return $result->fetch(PDO::FETCH_OBJ);
     }
 
+
+    // SELECTS
+
     /**
      * Check if user is log in.
      *
      * @param string $email
-     * @param string $name
-     * @param string $password
-     *
      * @return mixed
      */
 
@@ -156,11 +150,51 @@ class User
         return $result->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * @return mixed
-     */
-    public static function getUserFromSession(): mixed
+    // remember me method
+
+    public static function rememberUser($check, $id, $sec)
     {
-        return User::getUserByEmail(Session::get('email'));
+        if ($check === 'on') {
+            setcookie('user_id', $id, time() + $sec);
+        }
+    }
+
+    // forget me method
+
+    public static function forgetUser($id, $sec)
+    {
+        Session::start();
+        Session::delete('email');
+
+        setcookie('user_id', $id, time() + $sec);
+    }
+
+    // block user if attempts is too much
+
+    public static function blockByAttempts($login_attempts, $limitedAttempts, $email)
+    {
+        if ($login_attempts >= $limitedAttempts) {
+            Session::set('user_api', $_SERVER['REMOTE_ADDR']);
+            Session::set('locked_time', time());
+            Session::set('attacker_email', $email);
+
+            self::writeLogFile();
+        }
+    }
+
+    // get how much time is left for unblocking user
+
+    public static function getLeftTime($blockTime)
+    {
+        Session::start();
+
+        $difference = time() - Session::get('locked_time');
+        $last = $blockTime - $difference;
+
+        if ($difference > $blockTime) {
+            $last = 0;
+        }
+
+        return $last;
     }
 }
