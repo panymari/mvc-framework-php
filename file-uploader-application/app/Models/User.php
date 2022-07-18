@@ -152,10 +152,10 @@ class User
 
     // remember me method
 
-    public static function rememberUser($check, $id, $sec)
+    public static function rememberUser($check, $id)
     {
         if ($check === 'on') {
-            setcookie('user_id', $id, time() + $sec);
+            setcookie('user_id', $id, time() + WEEK_TO_SEC);
         }
     }
 
@@ -171,9 +171,9 @@ class User
 
     // block user if attempts is too much
 
-    public static function blockByAttempts($login_attempts, $limitedAttempts, $email)
+    public static function blockByAttempts($login_attempts, $email)
     {
-        if ($login_attempts >= $limitedAttempts) {
+        if ($login_attempts >= LIMITED_ATTEMPTS) {
             Session::set('user_api', $_SERVER['REMOTE_ADDR']);
             Session::set('locked_time', time());
             Session::set('attacker_email', $email);
@@ -196,5 +196,63 @@ class User
         }
 
         return $last;
+    }
+
+    // check is user block
+
+    public static function isUserBlock()
+    {
+        $loginAttemptsAcc = $_COOKIE['login_attempts'] ?? 0;
+        $lockedTime = Session::get('locked_time') ?? 0;
+        $difference = time() - $lockedTime;
+
+        $condition = ($loginAttemptsAcc >= LIMITED_ATTEMPTS || $difference < BLOCK_TIME)
+            && str_starts_with($_SERVER['REMOTE_ADDR'], Session::get('user_api'));
+        if ($condition) {
+            return true;
+        } else {
+            Session::delete(['locked_time', 'user_api', 'attacker_email']);
+        }
+    }
+
+    //check is user is saved in cookie
+
+    public static function isUserSave()
+    {
+        if (isset($_COOKIE['user_id'])) {
+            $user = User::getUserById($_COOKIE['user_id']);
+            Session::set('email', $user['email']);
+            redirect(301, ROOT_REF_FILE);
+        } else {
+            return false;
+        }
+    }
+
+    //check credentials if there are wrong return true
+
+    public static function checkCredentials($user, $userFromPost)
+    {
+        $check = $_POST['check'] ?? '';
+        $loginAttemptsAcc = $_COOKIE['login_attempts'] ?? 0;
+
+        if ($user) {
+            $checkCredentials = $user['name'] === $userFromPost['name'] && $user['email'] === $userFromPost['email']
+                && (password_verify($userFromPost['password'], $user['password']) || $userFromPost['password'] === $user['password']);
+            if ($checkCredentials) {
+                Session::set('email', $user['email']); // create session for previously registered user
+
+                User::rememberUser($check, $user['id']);
+
+                redirect(301, ROOT_REF_FILE);
+            } else {
+                // if attempts of log in is more than possible, block user
+                $login_attempts = $loginAttemptsAcc + 1;
+                setcookie('login_attempts', $login_attempts, time() + BLOCK_TIME);
+
+                User::blockByAttempts($login_attempts, $userFromPost['email']);
+
+                return true;
+            }
+        }
     }
 }
