@@ -1,5 +1,11 @@
 .php-cs-fixer.cache
 
-vendor/
+vendor/bin
+vendor/composer
+vendor/doctrine
+vendor/friendsofphp
+vendor/php-cs-fixer
+vendor/psr
+vendor/symfony
 
 .idea/

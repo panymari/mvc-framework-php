@@ -1,11 +1,5 @@
 <?php
 
-//Users of your catalog should have the ability to select any product and service,
-//read information about them and calculate total cost of selected items.
-//Users should not be able to select any service if they didn't select any product.
-//But if they select products, you should advise them to select appropriate service.
-
-
 class Cart
 {
     protected array $products = [];
@@ -17,7 +11,7 @@ class Cart
         $this->services = [];
     }
 
-    public function getServiceInfo(Services $services): string
+    public function getServiceInfo(Service $services): string
     {
         return json_encode([
             'deadline' => $services->getDeadline(),
@@ -26,7 +20,7 @@ class Cart
         ]);
     }
 
-    public function getProductInfo(Products $products): string
+    public function getProductInfo(Product $products): string
     {
         return json_encode([
             'name' => $products->getName(),
@@ -36,7 +30,7 @@ class Cart
         ]);
     }
 
-    public function addProduct(Products $product): array|int
+    public function addProduct(Product $product): array|int
     {
         array_push($this->products, $product);
         if (!$this->services) {
@@ -46,7 +40,7 @@ class Cart
         return $this->products ?? 0;
     }
 
-    public function addService(Services $service): array|int
+    public function addService(Service $service): array|int
     {
         if ($this->products) {
             array_push($this->services, $service);

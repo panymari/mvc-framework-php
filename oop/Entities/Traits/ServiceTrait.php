@@ -1,23 +1,5 @@
 <?php
 
-// Abstract class
-abstract class Services
-{
-    protected string $deadline;
-    protected string $runQueue;
-    protected float $cost;
-
-    // getters
-    abstract public function getDeadline(): string;
-    abstract public function getRunQueue(): string;
-    abstract public function getCost(): float;
-
-    // setters
-    abstract public function setDeadline(string $value);
-    abstract public function setRunQueue(string $value);
-    abstract public function setCost(float $value);
-}
-
 trait ServiceTrait
 {
     public function __construct($deadline, $runQueue, $cost)

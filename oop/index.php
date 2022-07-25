@@ -1,21 +1,20 @@
 <?php
 
-
+require_once './config/const.php';
 require_once 'vendor/autoload.php'; //автозагрузчик классов
 require_once 'vendor/main.php'; //основной класс приложения
-require_once './config/const.php';
+
 
 $application = new Application();
 $application->run();
 
 //tests
 //$cart = new Cart();
-
 //get info of ech product and service
-//var_dump($cart->getProductInfo(new TvSet("TV set", "test1", "12.07.2020", 10000)));
-//var_dump($cart->getProductInfo(new Fridge("fridge", "test2", "13.07.2020", 121212)));
-//var_dump($cart->getProductInfo(new Laptop("laptop", "test3", "14.07.2020", 23231)));
-//var_dump($cart->getProductInfo(new MobilePhone("mobile phone", "test4", "15.07.2020", 1173672)));
+//var_dump($cart->getProductInfo(new TvSetProduct("TV set", "test1", "12.07.2020", 10000)));
+//var_dump($cart->getProductInfo(new FridgeProduct("fridge", "test2", "13.07.2020", 121212)));
+//var_dump($cart->getProductInfo(new LaptopProduct("laptop", "test3", "14.07.2020", 23231)));
+//var_dump($cart->getProductInfo(new MobilePhoneProduct("mobile phone", "test4", "15.07.2020", 1173672)));
 //
 //var_dump($cart->getServiceInfo(new ConfigureService("20.05.2022", "test1", 10000)));
 //var_dump($cart->getServiceInfo(new DeliveryService("21.05.2022", "test2", 121212)));
