@@ -18,7 +18,7 @@ class ClassLoader {
 
         // check is classes, traits, interfaces exist
         if (!class_exists($className, false) && !interface_exists($className, false) && !trait_exists($className, false)) {
-            throw new Exception('Невозможно найти класс '.$className);
+            throw new Exception("Can't find " .$className);
         }
     }
 
