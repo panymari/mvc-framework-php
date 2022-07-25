@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    width: 20rem;
+    padding: 3rem;
+}
+
+.form-group * {
+    margin-bottom: 1rem;
+}
+
+.red {
+    color: red;
+}
+
+.footer {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+}
+
+nav {
+    margin-bottom: 2rem;
+}

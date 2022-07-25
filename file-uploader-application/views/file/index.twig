@@ -1,0 +1,34 @@
+{% extends 'base.twig' %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">File name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Size</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for file in files %}
+            <tr>
+                <th>{{ file['id'] }}</th>
+                <td>{{ file['file_name'] }}</td>
+                <td>{{ file['type'] }}</td>
+                <td>{{ file['size'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/file/create" class="btn btn-dark">Create</a>
+    <a href="/user/logout" class="btn btn-dark"
+       onclick="return confirm('Sure, do you want to leave the web page?')">Log Out</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
