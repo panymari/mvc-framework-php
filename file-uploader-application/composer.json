@@ -10,7 +10,7 @@
   "require": {
     "ext-pdo": "*",
     "ext-curl": "*",
-    "../file-uploader-application/vendor/twig/twig": "3.3.2"
+    "twig/twig": "3.3.2"
   },
   "minimum-stability" : "dev",
   "autoload": {
@@ -23,15 +23,17 @@
   },
   "scripts": {
     "create-user-table": "App\\Migrations\\CreateUserTable::up",
+    "create-file-table": "App\\Migrations\\CreateFilesTable::up",
     "seed-users": "App\\Seeders\\UserSeeder::UserSeeder",
     "migrate": [
-      "@composer create-user-table"
+      "@composer create-user-table",
+      "@composer create-file-table"
     ],
     "seed": [
       "@composer seed-user"
     ]
   },
   "require-dev": {
-    "../file-uploader-application/vendor/friendsofphp/php-cs-fixer": "dev-master"
+    "friendsofphp/php-cs-fixer": "dev-master"
   }
 }

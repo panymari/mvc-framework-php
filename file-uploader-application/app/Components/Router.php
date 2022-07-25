@@ -20,9 +20,8 @@ class Router
     public function run()
     {
         $uri = $this->getURI();
-        
-        if (isset($this->routes[$uri])) {
 
+        if (isset($this->routes[$uri])) {
             $segments = explode('/', $uri);
 
             $controllerName = array_shift($segments) . 'Controller';
@@ -36,13 +35,11 @@ class Router
 
             $controllerObject = new $controllerFile();
 
-            if(empty($actionName)) {
-                $actionName = "index";
+            if (empty($actionName)) {
+                $actionName = 'index';
             }
 
             call_user_func_array([$controllerObject, $actionName], $parameters);
-
-
         } else {
             redirect(404, '');
         }
