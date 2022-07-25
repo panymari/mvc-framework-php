@@ -20,30 +20,31 @@ class Router
     public function run()
     {
         $uri = $this->getURI();
+        
+        if (isset($this->routes[$uri])) {
 
-        $result = null;
-        foreach ($this->routes as $uriPattern => $path) {
-            if (preg_match("~$uriPattern~", $uri)) {
-                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+            $segments = explode('/', $uri);
 
-                $segments = explode('/', $internalRoute);
-                $controllerName = array_shift($segments) . 'Controller';
-                $controllerName = ucfirst($controllerName);
+            $controllerName = array_shift($segments) . 'Controller';
+            $controllerName = ucfirst($controllerName);
 
-                $actionName = array_shift($segments);
+            $actionName = array_shift($segments);
 
-                $actionNameCorrect = str_contains($actionName, '?') ? array_key_last($_GET) : $actionName;
+            $parameters = $segments;
 
-                $parameters = $segments;
+            $controllerFile = 'App\\Controllers\\' . $controllerName;
 
-                $controllerFile = 'App\\Controllers\\' . $controllerName;
+            $controllerObject = new $controllerFile();
 
-                $controllerObject = new $controllerFile();
-
-                $result = call_user_func_array([$controllerObject, $actionNameCorrect], $parameters);
-
-                break;
+            if(empty($actionName)) {
+                $actionName = "index";
             }
+
+            call_user_func_array([$controllerObject, $actionName], $parameters);
+
+
+        } else {
+            redirect(404, '');
         }
     }
 }

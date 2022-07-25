@@ -31,6 +31,6 @@
     ]
   },
   "require-dev": {
-    "../file-uploader-application/vendor/friendsofphp/php-cs-fixer": "dev-master"
+    "friendsofphp/php-cs-fixer": "dev-master"
   }
 }

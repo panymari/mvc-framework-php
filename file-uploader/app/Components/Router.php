@@ -21,27 +21,30 @@ class Router
     {
         $uri = $this->getURI();
 
-        $result = null;
-        foreach ($this->routes as $uriPattern => $path) {
-            if (preg_match("~$uriPattern~", $uri)) {
-                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+        if (isset($this->routes[$uri])) {
 
-                $segments = explode('/', $internalRoute);
-                $controllerName = array_shift($segments) . 'Controller';
-                $controllerName = ucfirst($controllerName);
+            $segments = explode('/', $uri);
 
-                $actionName = array_shift($segments);
+            $controllerName = array_shift($segments) . 'Controller';
+            $controllerName = ucfirst($controllerName);
 
-                $parameters = $segments;
+            $actionName = array_shift($segments);
 
-                $controllerFile = 'App\\Controllers\\' . $controllerName;
+            $parameters = $segments;
 
-                $controllerObject = new $controllerFile();
+            $controllerFile = 'App\\Controllers\\' . $controllerName;
 
-                $result = call_user_func_array([$controllerObject, $actionName], $parameters);
+            $controllerObject = new $controllerFile();
 
-                break;
+            if(empty($actionName)) {
+                $actionName = "index";
             }
+
+            call_user_func_array([$controllerObject, $actionName], $parameters);
+
+
+        } else {
+            redirect(404, '');
         }
     }
 }
