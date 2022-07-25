@@ -9,9 +9,9 @@ return [
     "TvSetProduct" => "\Factories\ProductFactory.php",
 
     "ConfigureService" => "\Factories\ServiceFactory.php",
-    "DeliveryService" => "\Services\ServiceFactory.php",
-    "InstallService" => "\Services\ServiceFactory.php",
-    "SupportService" => "\Services\ServiceFactory.php",
+    "DeliveryService" => "\Factories\ServiceFactory.php",
+    "InstallService" => "\Factories\ServiceFactory.php",
+    "SupportService" => "\Factories\ServiceFactory.php",
 
     "Cart" => "\Entities\Cart.php",
     "Product" => "\Entities\Product.php",
@@ -19,4 +19,7 @@ return [
 
     "ProductTrait" => "\Entities\Traits\ProductTrait.php",
     "ServiceTrait" => "\Entities\Traits\ServiceTrait.php",
+
+    "ProductInterface" => "\Entities\Interfaces\ProductInterface.php",
+    "ServiceInterface" => "\Entities\Interfaces\ServiceInterface.php",
 ];

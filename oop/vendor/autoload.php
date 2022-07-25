@@ -7,16 +7,16 @@ class ClassLoader {
 
     public static function autoload($className){
 
-        //подключаем и сохраняем карту классов. Добавляем пользовательские классы.
+        // include and save cart map
         self::$classMap = array_merge(require(__DIR__ . '/classes.php'), self::$addMap);
 
-        //Ищем в карте классов
+        // search in cart map
         if (isset(self::$classMap[$className])) {
             $filename = self::$classMap[$className];
             include_once $_SERVER['DOCUMENT_ROOT'] . $filename;
         }
 
-        //Проверка был ли объявлен класс
+        // check is classes, traits, interfaces exist
         if (!class_exists($className, false) && !interface_exists($className, false) && !trait_exists($className, false)) {
             throw new Exception('Невозможно найти класс '.$className);
         }

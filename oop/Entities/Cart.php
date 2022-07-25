@@ -59,16 +59,12 @@ class Cart
         }
 
         $costOfServices = [];
-        foreach ($this->products as $product) {
-            array_push($costOfServices, $product->getCost());
+        foreach ($this->services as $service) {
+            array_push($costOfServices, $service->getCost());
         }
 
         $allCosts = array_merge($costOfProducts, $costOfServices);
 
-        return array_reduce($allCosts, function ($carry, $item) {
-            $carry += $item;
-
-            return $carry;
-        });
+        return array_sum($allCosts);
     }
 }
